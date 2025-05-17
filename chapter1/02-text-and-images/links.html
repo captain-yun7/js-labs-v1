@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 링크</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        .example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        a:visited {
+            color: #8e44ad;
+        }
+        .button-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        .button-link:hover {
+            background-color: #2980b9;
+            text-decoration: none;
+        }
+        .nav-links {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .nav-links a {
+            padding: 5px 10px;
+        }
+        .nav-links a.active {
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML 링크</h1>
+    
+    <p>링크(hyperlink)는 웹의 핵심 요소로, 다른 페이지나 웹 리소스로 이동할 수 있게 합니다. HTML에서는 <code>&lt;a&gt;</code> 태그를 사용하여 링크를 생성합니다.</p>
+    
+    <h2>1. 기본 링크 생성</h2>
+    <div class="example">
+        <p>기본 링크는 다음과 같이 사용합니다:</p>
+        <a href="https://www.example.com">Example 웹사이트</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="https://www.example.com"&gt;Example 웹사이트&lt;/a&gt;</code></pre>
+    <p>href(필수): 링크가 가리키는 목적지 URL</p>
+    
+    <h2>2. 링크 대상 지정</h2>
+    <div class="example">
+        <p>target 속성을 사용하여 링크가 열리는 방식을 지정할 수 있습니다:</p>
+        <a href="https://www.example.com" target="_blank">새 탭에서 열기</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="https://www.example.com" target="_blank"&gt;새 탭에서 열기&lt;/a&gt;</code></pre>
+    <p>target 값:</p>
+    <ul>
+        <li><code>_self</code>: 현재 창에서 열기 (기본값)</li>
+        <li><code>_blank</code>: 새 탭이나 창에서 열기</li>
+        <li><code>_parent</code>: 부모 프레임에서 열기</li>
+        <li><code>_top</code>: 전체 브라우저 창에서 열기</li>
+    </ul>
+    
+    <h2>3. 링크 타이틀 추가</h2>
+    <div class="example">
+        <p>title 속성을 사용하여 링크에 대한 추가 정보를 제공할 수 있습니다:</p>
+        <a href="https://www.example.com" title="Example.com - 예제 웹사이트">Example 웹사이트</a> (마우스를 올려보세요)
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="https://www.example.com" title="Example.com - 예제 웹사이트"&gt;Example 웹사이트&lt;/a&gt;</code></pre>
+    
+    <h2>4. 내부 페이지 링크 (같은 웹사이트 내)</h2>
+    <div class="example">
+        <p>같은 웹사이트 내의 다른 페이지로 연결할 때는 상대 경로를 사용할 수 있습니다:</p>
+        <a href="images.html">이미지 페이지로 이동</a><br>
+        <a href="../01-html-basics/basic-structure.html">HTML 기본 구조 페이지로 이동</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;!-- 같은 디렉토리 내의 파일 --&gt;
+&lt;a href="images.html"&gt;이미지 페이지로 이동&lt;/a&gt;
+
+&lt;!-- 상위 디렉토리의 파일 --&gt;
+&lt;a href="../01-html-basics/basic-structure.html"&gt;HTML 기본 구조 페이지로 이동&lt;/a&gt;</code></pre>
+    
+    <h2>5. 페이지 내 특정 위치로 이동 (앵커 링크)</h2>
+    <div class="example">
+        <p>id 속성을 사용하여 페이지 내 특정 위치로 이동하는 앵커 링크를 생성할 수 있습니다:</p>
+        
+        <div class="nav-links">
+            <a href="#section1">섹션 1</a>
+            <a href="#section2">섹션 2</a>
+            <a href="#section3">섹션 3</a>
+        </div>
+        
+        <div id="section1" style="margin-top: 30px;">
+            <h3>섹션 1</h3>
+            <p>이 섹션은 id="section1"을 가지고 있어 앵커 링크의 대상이 됩니다.</p>
+        </div>
+        
+        <div id="section2" style="margin-top: 30px;">
+            <h3>섹션 2</h3>
+            <p>이 섹션은 id="section2"를 가지고 있어 앵커 링크의 대상이 됩니다.</p>
+        </div>
+        
+        <div id="section3" style="margin-top: 30px;">
+            <h3>섹션 3</h3>
+            <p>이 섹션은 id="section3"을 가지고 있어 앵커 링크의 대상이 됩니다.</p>
+        </div>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;!-- 페이지 상단에 네비게이션 링크 --&gt;
+&lt;a href="#section1"&gt;섹션 1&lt;/a&gt;
+&lt;a href="#section2"&gt;섹션 2&lt;/a&gt;
+
+&lt;!-- 페이지 내 해당 위치에 id 지정 --&gt;
+&lt;div id="section1"&gt;
+    &lt;h3&gt;섹션 1&lt;/h3&gt;
+    &lt;p&gt;섹션 1 내용...&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="section2"&gt;
+    &lt;h3&gt;섹션 2&lt;/h3&gt;
+    &lt;p&gt;섹션 2 내용...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    
+    <h2>6. 다른 페이지의 특정 위치로 이동</h2>
+    <div class="example">
+        <p>다른 페이지의 특정 위치로 이동하려면 URL 뒤에 앵커(#)를 추가합니다:</p>
+        <a href="images.html#section2">이미지 페이지의 섹션 2로 이동</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="images.html#section2"&gt;이미지 페이지의 섹션 2로 이동&lt;/a&gt;</code></pre>
+    
+    <h2>7. 이메일 링크</h2>
+    <div class="example">
+        <p>mailto: 프로토콜을 사용하여 이메일 클라이언트를 실행하는 링크를 만들 수 있습니다:</p>
+        <a href="mailto:example@example.com">이메일 보내기</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="mailto:example@example.com"&gt;이메일 보내기&lt;/a&gt;</code></pre>
+    <p>추가 옵션을 포함할 수도 있습니다:</p>
+    <pre><code>&lt;a href="mailto:example@example.com?subject=문의사항&body=안녕하세요,%20문의드립니다."&gt;
+    문의 이메일 보내기
+&lt;/a&gt;</code></pre>
+    
+    <h2>8. 전화번호 링크</h2>
+    <div class="example">
+        <p>tel: 프로토콜을 사용하여 전화를 걸 수 있는 링크를 만들 수 있습니다 (모바일 기기에서 유용):</p>
+        <a href="tel:+8201012345678">010-1234-5678로 전화하기</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="tel:+8201012345678"&gt;010-1234-5678로 전화하기&lt;/a&gt;</code></pre>
+    
+    <h2>9. 다운로드 링크</h2>
+    <div class="example">
+        <p>download 속성을 사용하여 링크를 클릭했을 때 파일을 다운로드하게 할 수 있습니다:</p>
+        <a href="sample.txt" download="내_파일.txt">텍스트 파일 다운로드</a>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;a href="파일경로.pdf" download="저장될_파일명.pdf"&gt;PDF 파일 다운로드&lt;/a&gt;</code></pre>
+    
+    <h2>10. 링크 스타일링</h2>
+    <div class="example">
+        <p>CSS를 사용하여 링크 모양을 변경할 수 있습니다:</p>
+        
+        <h3>일반 링크</h3>
+        <a href="#">기본 스타일 링크</a>
+        
+        <h3>버튼 형태 링크</h3>
+        <a href="#" class="button-link">버튼처럼 보이는 링크</a>
+        
+        <h3>네비게이션 링크</h3>
+        <div class="nav-links">
+            <a href="#" class="active">홈</a>
+            <a href="#">소개</a>
+            <a href="#">서비스</a>
+            <a href="#">연락처</a>
+        </div>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;!-- CSS --&gt;
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:visited {
+    color: #8e44ad;
+}
+.button-link {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.button-link:hover {
+    background-color: #2980b9;
+}
+
+&lt;!-- HTML --&gt;
+&lt;a href="#"&gt;기본 스타일 링크&lt;/a&gt;
+&lt;a href="#" class="button-link"&gt;버튼처럼 보이는 링크&lt;/a&gt;</code></pre>
+    
+    <p class="note">참고: 링크는 웹 접근성을 고려하여 명확한 텍스트로 제공하는 것이 좋습니다. "여기를 클릭하세요" 같은 모호한 표현보다 "제품 설명서 다운로드"와 같이 구체적인 텍스트를 사용하세요.</p>
+    
+    <p><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">맨 위로 이동</a></p>
+</body>
+</html> 

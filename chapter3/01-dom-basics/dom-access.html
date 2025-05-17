@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 접근 방법</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .highlight {
+            background-color: yellow;
+            padding: 2px;
+        }
+        #box {
+            width: 200px;
+            height: 100px;
+            margin: 20px 0;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="header">DOM 접근 방법</h1>
+    
+    <div class="container">
+        <h2 id="title">DOM 요소 선택하기</h2>
+        <p>DOM에서 요소를 선택하는 여러 방법을 알아봅니다.</p>
+        <p>요소는 <span class="highlight">ID</span>, <span class="highlight">태그 이름</span>, 
+            <span class="highlight">클래스</span>, 또는 <span class="highlight">CSS 선택자</span>로 선택할 수 있습니다.</p>
+        
+        <a id="link" href="https://developer.mozilla.org/ko/docs/Web/API/Document_Object_Model">
+            MDN 문서 보기
+        </a>
+    </div>
+    
+    <div class="container">
+        <h2>요소 조작하기</h2>
+        <p>선택한 DOM 요소의 내용과 속성을 변경할 수 있습니다.</p>
+        
+        <div id="box">스타일이 변경될 박스</div>
+        
+        <button id="text-btn">텍스트 변경</button>
+        <button id="style-btn">스타일 변경</button>
+        <button id="add-btn">요소 추가</button>
+    </div>
+    
+    <div class="container">
+        <h2>결과 확인</h2>
+        <p>브라우저 콘솔을 열어 결과를 확인하세요. (F12 키 또는 우클릭 후 '검사' 선택)</p>
+        <div id="result"></div>
+    </div>
+    
+    <script>
+        // 페이지에서 동작하는 간단한 예제
+        document.getElementById('text-btn').addEventListener('click', function() {
+            const box = document.getElementById('box');
+            box.textContent = '텍스트가 변경되었습니다!';
+        });
+        
+        document.getElementById('style-btn').addEventListener('click', function() {
+            const box = document.getElementById('box');
+            box.style.backgroundColor = '#3498db';
+            box.style.color = 'white';
+            box.style.fontWeight = 'bold';
+        });
+        
+        document.getElementById('add-btn').addEventListener('click', function() {
+            const result = document.getElementById('result');
+            const newElement = document.createElement('p');
+            newElement.innerHTML = '새로운 <span class="highlight">단락</span>이 추가되었습니다!';
+            result.appendChild(newElement);
+        });
+    </script>
+    
+    <!-- 실제 DOM 접근 예제를 담은 외부 스크립트 -->
+    <script src="dom-access.js"></script>
+</body>
+</html> 

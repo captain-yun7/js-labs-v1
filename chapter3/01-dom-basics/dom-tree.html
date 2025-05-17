@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 트리 구조</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .tree {
+            margin: 20px 0;
+        }
+        .tree ul {
+            padding-left: 20px;
+        }
+        .tree li {
+            margin: 10px 0;
+            list-style-type: none;
+            position: relative;
+        }
+        .tree li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -15px;
+            border-left: 1px solid #ccc;
+            height: 100%;
+        }
+        .tree li::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: -15px;
+            border-top: 1px solid #ccc;
+            width: 15px;
+        }
+        .tree li:last-child::before {
+            height: 10px;
+        }
+        .tree .node {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .tree .element {
+            background-color: #e1f5fe;
+        }
+        .tree .text {
+            background-color: #f1f1f1;
+            font-style: italic;
+        }
+        .tree .attribute {
+            background-color: #fff9c4;
+            font-size: 0.9em;
+            margin-left: 10px;
+            padding: 2px 5px;
+        }
+        .sample-html {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM 트리 구조</h1>
+    
+    <div class="section">
+        <h2>DOM 트리란?</h2>
+        <p>DOM(Document Object Model)은 HTML 문서를 트리 구조로 표현합니다. 이 트리는 노드(Node)라는 객체들로 구성됩니다.</p>
+        <p>주요 노드 유형:</p>
+        <ul>
+            <li><strong>문서 노드(Document Node)</strong>: 전체 문서를 나타내는 루트 노드</li>
+            <li><strong>요소 노드(Element Node)</strong>: HTML 요소를 나타내는 노드</li>
+            <li><strong>텍스트 노드(Text Node)</strong>: 텍스트 내용을 나타내는 노드</li>
+            <li><strong>속성 노드(Attribute Node)</strong>: 요소의 속성을 나타내는 노드</li>
+            <li><strong>주석 노드(Comment Node)</strong>: HTML 주석을 나타내는 노드</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>예제 HTML 구조</h2>
+        <div class="sample-html">
+            <pre>&lt;div id="container" class="wrapper"&gt;
+  &lt;h2&gt;제목&lt;/h2&gt;
+  &lt;p&gt;단락 &lt;a href="https://example.com"&gt;링크&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;</pre>
+        </div>
+        
+        <h2>위 HTML의 DOM 트리 표현</h2>
+        <div class="tree">
+            <ul>
+                <li>
+                    <span class="node element">document</span>
+                    <ul>
+                        <li>
+                            <span class="node element">html</span>
+                            <ul>
+                                <li>
+                                    <span class="node element">head</span>
+                                    <ul>
+                                        <li><span class="node text">...</span></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="node element">body</span>
+                                    <ul>
+                                        <li>
+                                            <span class="node element">div</span>
+                                            <span class="node attribute">id="container"</span>
+                                            <span class="node attribute">class="wrapper"</span>
+                                            <ul>
+                                                <li>
+                                                    <span class="node element">h2</span>
+                                                    <ul>
+                                                        <li><span class="node text">"제목"</span></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <span class="node element">p</span>
+                                                    <ul>
+                                                        <li><span class="node text">"단락 "</span></li>
+                                                        <li>
+                                                            <span class="node element">a</span>
+                                                            <span class="node attribute">href="https://example.com"</span>
+                                                            <ul>
+                                                                <li><span class="node text">"링크"</span></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>JavaScript로 DOM 트리 탐색하기</h2>
+        <p>JavaScript는 다양한 속성과 메서드를 통해 DOM 트리를 탐색할 수 있습니다:</p>
+        <ul>
+            <li><code>parentNode</code>: 부모 노드에 접근</li>
+            <li><code>childNodes</code>: 모든 자식 노드를 NodeList로 반환</li>
+            <li><code>children</code>: 자식 요소 노드만 HTMLCollection으로 반환</li>
+            <li><code>firstChild</code>/<code>lastChild</code>: 첫 번째/마지막 자식 노드</li>
+            <li><code>nextSibling</code>/<code>previousSibling</code>: 다음/이전 형제 노드</li>
+            <li><code>nodeType</code>: 노드 유형 (1=요소, 3=텍스트, 8=주석, ...)</li>
+            <li><code>nodeName</code>: 노드 이름 (요소의 경우 태그 이름)</li>
+        </ul>
+        
+        <div id="demo-container">
+            <button id="explore-btn">DOM 트리 탐색하기</button>
+            <div id="exploration-result"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('explore-btn').addEventListener('click', function() {
+            const result = document.getElementById('exploration-result');
+            result.innerHTML = '';
+            
+            // 현재 페이지의 <body> 요소에 대한 간단한 탐색 결과 표시
+            const body = document.body;
+            
+            // 정보 출력 함수
+            function addInfo(text) {
+                const p = document.createElement('p');
+                p.textContent = text;
+                result.appendChild(p);
+            }
+            
+            // DOM 트리 정보 출력
+            addInfo(`body 노드 유형: ${body.nodeType} (1=요소)`);
+            addInfo(`body 자식 요소 수: ${body.children.length}`);
+            addInfo(`body의 첫 번째 자식 요소: <${body.children[0].tagName.toLowerCase()}>`);
+            
+            // 특정 요소(여기서는 이 버튼)의 부모와 형제 관계 출력
+            const button = document.getElementById('explore-btn');
+            addInfo(`버튼의 부모 요소: <${button.parentNode.tagName.toLowerCase()}>`);
+            addInfo(`버튼의 다음 형제 요소: <${button.nextElementSibling.tagName.toLowerCase()}>`);
+            
+            // 트리 구조의 깊이 탐색 예제
+            const section = document.querySelector('.section');
+            const h2 = section.querySelector('h2');
+            addInfo(`첫 번째 섹션의 제목: "${h2.textContent}"`);
+            
+            // 텍스트 노드와 요소 노드의 차이
+            const p = document.querySelector('p');
+            addInfo(`첫 번째 단락의 자식 노드 수: ${p.childNodes.length} (공백 포함)`);
+            addInfo(`첫 번째 단락의 자식 요소 수: ${p.children.length} (요소만)`);
+        });
+    </script>
+</body>
+</html> 

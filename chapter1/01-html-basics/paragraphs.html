@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 문단 태그와 텍스트 서식</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .example {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .note {
+            background-color: #e8f4f8;
+            padding: 10px;
+            border-left: 4px solid #4fc3f7;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML 문단 태그와 텍스트 서식</h1>
+    
+    <h2>문단 태그</h2>
+    <p>HTML에서 문단은 <code>&lt;p&gt;</code> 태그를 사용하여 정의합니다. 브라우저는 문단 앞뒤에 여백을 자동으로 추가합니다.</p>
+    
+    <div class="example">
+        <h3>문단 예제</h3>
+        <p>이것은 첫 번째 문단입니다. HTML 문서에서 가장 기본적인 블록 수준 요소 중 하나입니다.</p>
+        <p>이것은 두 번째 문단입니다. 브라우저는 자동으로 이 문단과 이전 문단 사이에 여백을 추가합니다.</p>
+        <p>세 번째 문단입니다. 문단 내의 텍스트는 화면 너비에 맞게 자동으로 줄바꿈됩니다.</p>
+    </div>
+    
+    <h2>줄바꿈</h2>
+    <p>HTML에서 줄바꿈은 <code>&lt;br&gt;</code> 태그를 사용합니다. 이 태그는 닫는 태그가 없는 빈 요소(empty element)입니다.</p>
+    
+    <div class="example">
+        <h3>줄바꿈 예제</h3>
+        <p>이것은 첫 번째 줄입니다.<br>이것은 두 번째 줄입니다.<br>이것은 세 번째 줄입니다.</p>
+    </div>
+    
+    <div class="note">
+        <p><strong>참고:</strong> <code>&lt;br&gt;</code> 태그는 줄바꿈이 필요한 곳에만 사용해야 합니다. 단락 사이의 간격을 늘리기 위해 여러 개의 <code>&lt;br&gt;</code> 태그를 사용하는 것은 좋지 않은 방법입니다. 대신 CSS의 margin 속성을 사용하세요.</p>
+    </div>
+    
+    <h2>수평선</h2>
+    <p>HTML에서 수평선은 <code>&lt;hr&gt;</code> 태그를 사용합니다. 이 태그는 주제의 전환이나 섹션의 구분을 나타내는 데 사용됩니다.</p>
+    
+    <div class="example">
+        <h3>수평선 예제</h3>
+        <p>첫 번째 섹션의 내용입니다.</p>
+        <hr>
+        <p>두 번째 섹션의 내용입니다.</p>
+    </div>
+    
+    <h2>텍스트 서식</h2>
+    <p>HTML은 텍스트를 다양한 방식으로 강조하기 위한 여러 태그를 제공합니다.</p>
+    
+    <div class="example">
+        <h3>텍스트 서식 예제</h3>
+        <p><strong>강조(Strong) 텍스트</strong>는 <code>&lt;strong&gt;</code> 태그를 사용합니다.</p>
+        <p><b>굵은(Bold) 텍스트</b>는 <code>&lt;b&gt;</code> 태그를 사용합니다.</p>
+        <p><em>기울임(Emphasized) 텍스트</em>는 <code>&lt;em&gt;</code> 태그를 사용합니다.</p>
+        <p><i>이탤릭(Italic) 텍스트</i>는 <code>&lt;i&gt;</code> 태그를 사용합니다.</p>
+        <p><u>밑줄(Underline) 텍스트</u>는 <code>&lt;u&gt;</code> 태그를 사용합니다.</p>
+        <p><s>취소선(Strikethrough) 텍스트</s>는 <code>&lt;s&gt;</code> 태그를 사용합니다.</p>
+        <p><mark>하이라이트(Highlight) 텍스트</mark>는 <code>&lt;mark&gt;</code> 태그를 사용합니다.</p>
+        <p>아래 첨자<sub>Subscript</sub>는 <code>&lt;sub&gt;</code> 태그를 사용합니다.</p>
+        <p>위 첨자<sup>Superscript</sup>는 <code>&lt;sup&gt;</code> 태그를 사용합니다.</p>
+        <p><small>작은 텍스트</small>는 <code>&lt;small&gt;</code> 태그를 사용합니다.</p>
+        <p><code>코드 텍스트</code>는 <code>&lt;code&gt;</code> 태그를 사용합니다.</p>
+    </div>
+    
+    <div class="note">
+        <p><strong>의미론적 태그 사용:</strong> HTML5에서는 의미론적(semantic) 태그 사용을 권장합니다. 예를 들어, 단순히 텍스트를 굵게 표시하기 위해서는 <code>&lt;b&gt;</code> 대신 <code>&lt;strong&gt;</code>을, 기울임꼴을 위해서는 <code>&lt;i&gt;</code> 대신 <code>&lt;em&gt;</code>을 사용하는 것이 좋습니다.</p>
+    </div>
+    
+    <h2>인용문</h2>
+    <p>HTML에서는 인용문을 표시하기 위한 여러 태그를 제공합니다.</p>
+    
+    <div class="example">
+        <h3>인용문 예제</h3>
+        
+        <p>짧은 인용문은 <code>&lt;q&gt;</code> 태그를 사용합니다:</p>
+        <p>스티브 잡스는 <q>혁신은 남다른 것을 보는 능력에서 나온다</q>고 말했습니다.</p>
+        
+        <p>긴 인용문은 <code>&lt;blockquote&gt;</code> 태그를 사용합니다:</p>
+        <blockquote cite="https://www.brainyquote.com/quotes/albert_einstein_385842">
+            상상력은 지식보다 더 중요하다. 지식은 제한적이지만, 상상력은 세상을 둘러싼다.<br>
+            - 알버트 아인슈타인
+        </blockquote>
+        
+        <p>출처 인용은 <code>&lt;cite&gt;</code> 태그를 사용합니다:</p>
+        <p><cite>모나리자</cite>는 레오나르도 다빈치의 작품입니다.</p>
+    </div>
+    
+    <h2>정의 목록</h2>
+    <p>HTML에서는 용어와 그 정의를 나열하는 정의 목록을 제공합니다.</p>
+    
+    <div class="example">
+        <h3>정의 목록 예제</h3>
+        <dl>
+            <dt>HTML</dt>
+            <dd>웹 페이지의 구조를 정의하는 마크업 언어입니다.</dd>
+            
+            <dt>CSS</dt>
+            <dd>웹 페이지의 스타일과 레이아웃을 정의하는 스타일 시트 언어입니다.</dd>
+            
+            <dt>JavaScript</dt>
+            <dd>웹 페이지에 대화형 기능을 추가하는 프로그래밍 언어입니다.</dd>
+        </dl>
+    </div>
+    
+    <h2>실습 과제</h2>
+    <ol>
+        <li>다양한 텍스트 서식 태그를 사용하여 자기소개 페이지를 만들어보세요.</li>
+        <li>인용문과 정의 목록을 활용하여 좋아하는 명언이나 용어 정의 페이지를 만들어보세요.</li>
+        <li>적절한 곳에 줄바꿈과 수평선을 사용하여 내용을 구조화해보세요.</li>
+    </ol>
+    
+    <hr>
+    <footer>
+        <p>HTML 문단 태그와 텍스트 서식 예제 페이지 © 2023</p>
+    </footer>
+</body>
+</html> 

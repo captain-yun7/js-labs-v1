@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오 웹사이트</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- 헤더 섹션 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Portfolio</div>
+                <ul class="nav-links">
+                    <li><a href="#home">홈</a></li>
+                    <li><a href="#about">소개</a></li>
+                    <li><a href="#projects">프로젝트</a></li>
+                    <li><a href="#skills">기술</a></li>
+                    <li><a href="#contact">연락처</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 홈 섹션 -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>안녕하세요, <span class="highlight">개발자</span> 홍길동입니다</h1>
+                <p>웹 개발과 사용자 경험 디자인에 열정을 가진 프론트엔드 개발자입니다.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn primary-btn">프로젝트 보기</a>
+                    <a href="#contact" class="btn secondary-btn">연락하기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 소개 섹션 -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">소개</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://via.placeholder.com/300" alt="프로필 이미지">
+                </div>
+                <div class="about-text">
+                    <h3>저는 누구인가요?</h3>
+                    <p>3년차 프론트엔드 개발자로, 사용자 중심의 웹 애플리케이션을 만드는 데 열정을 가지고 있습니다. HTML, CSS, JavaScript를 능숙하게 다루며, 모던 프레임워크와 라이브러리를 활용한 개발 경험이 있습니다.</p>
+                    
+                    <h3>경력</h3>
+                    <ul>
+                        <li>ABC 회사 - 프론트엔드 개발자 (2020-현재)</li>
+                        <li>XYZ 스타트업 - 웹 개발 인턴 (2019-2020)</li>
+                    </ul>
+                    
+                    <h3>학력</h3>
+                    <p>한국대학교 컴퓨터공학과 (2016-2020)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">프로젝트</h2>
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">전체</button>
+                <button class="filter-btn" data-filter="web">웹</button>
+                <button class="filter-btn" data-filter="app">앱</button>
+                <button class="filter-btn" data-filter="design">디자인</button>
+            </div>
+            <div class="projects-grid">
+                <!-- 프로젝트 아이템 -->
+                <div class="project-item" data-category="web">
+                    <img src="https://via.placeholder.com/350x200" alt="프로젝트 1">
+                    <div class="project-info">
+                        <h3>쇼핑몰 웹사이트</h3>
+                        <p>반응형 디자인과 사용자 친화적 UI를 갖춘 온라인 쇼핑몰 구축</p>
+                        <div class="project-tech">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                            <span>React</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn small-btn">사이트 방문</a>
+                            <a href="#" class="btn small-btn">코드 보기</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 추가 프로젝트 아이템들 -->
+                <div class="project-item" data-category="app">
+                    <img src="https://via.placeholder.com/350x200" alt="프로젝트 2">
+                    <div class="project-info">
+                        <h3>할 일 관리 앱</h3>
+                        <p>React Native로 개발한 크로스 플랫폼 할 일 관리 애플리케이션</p>
+                        <div class="project-tech">
+                            <span>React Native</span>
+                            <span>JavaScript</span>
+                            <span>Firebase</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn small-btn">앱 다운로드</a>
+                            <a href="#" class="btn small-btn">코드 보기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item" data-category="design">
+                    <img src="https://via.placeholder.com/350x200" alt="프로젝트 3">
+                    <div class="project-info">
+                        <h3>브랜드 아이덴티티 디자인</h3>
+                        <p>스타트업을 위한 로고 및 브랜드 아이덴티티 디자인</p>
+                        <div class="project-tech">
+                            <span>Figma</span>
+                            <span>Photoshop</span>
+                            <span>Illustrator</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn small-btn">상세 보기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 기술 섹션 -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">기술</h2>
+            <div class="skills-content">
+                <div class="skill-category">
+                    <h3>프론트엔드</h3>
+                    <div class="skill-bars">
+                        <div class="skill-bar">
+                            <span class="skill-name">HTML/CSS</span>
+                            <div class="progress-bar">
+                                <div class="progress" data-percent="90"></div>
+                            </div>
+                            <span class="percent">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">JavaScript</span>
+                            <div class="progress-bar">
+                                <div class="progress" data-percent="85"></div>
+                            </div>
+                            <span class="percent">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">React</span>
+                            <div class="progress-bar">
+                                <div class="progress" data-percent="80"></div>
+                            </div>
+                            <span class="percent">80%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>백엔드</h3>
+                    <div class="skill-bars">
+                        <div class="skill-bar">
+                            <span class="skill-name">Node.js</span>
+                            <div class="progress-bar">
+                                <div class="progress" data-percent="75"></div>
+                            </div>
+                            <span class="percent">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">Express</span>
+                            <div class="progress-bar">
+                                <div class="progress" data-percent="70"></div>
+                            </div>
+                            <span class="percent">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">MongoDB</span>
+                            <div class="progress-bar">
+                                <div class="progress" data-percent="65"></div>
+                            </div>
+                            <span class="percent">65%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 섹션 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">연락처</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>연락 정보</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> email@example.com</li>
+                        <li><i class="fas fa-phone"></i> +82 10-1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 서울특별시 강남구</li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>메시지 보내기</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">이름</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">이메일</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">제목</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">메시지</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn primary-btn">보내기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 홍길동 포트폴리오. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html> 

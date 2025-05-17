@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 버블링과 캡처링</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .demo-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .demo {
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            transition: background-color 0.2s;
+        }
+        .grandparent {
+            background-color: #ffecb3;
+            width: 300px;
+            height: 300px;
+            padding: 25px;
+            margin: 0 auto;
+        }
+        .parent {
+            background-color: #ffcc80;
+            width: 200px;
+            height: 200px;
+            padding: 25px;
+            margin: 25px auto;
+        }
+        .child {
+            background-color: #ffa726;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            margin: 25px auto;
+        }
+        .demo:hover {
+            opacity: 0.9;
+        }
+        .event-log {
+            height: 200px;
+            background-color: #424242;
+            color: #fff;
+            font-family: monospace;
+            padding: 10px;
+            overflow-y: auto;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .clear-btn {
+            background-color: #f44336;
+        }
+        .clear-btn:hover {
+            background-color: #d32f2f;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .diagram {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .diagram img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>이벤트 버블링과 캡처링</h1>
+    
+    <div class="section">
+        <h2>이벤트 전파 (Event Propagation)</h2>
+        <p>웹 페이지에서 이벤트가 발생하면, 이벤트는 DOM 트리를 따라 전파됩니다. 이벤트 전파에는 <strong>캡처링(Capturing)</strong>과 <strong>버블링(Bubbling)</strong>이라는 두 가지 단계가 있습니다.</p>
+        
+        <h3>이벤트 전파 단계</h3>
+        <ol>
+            <li><strong>캡처링 단계 (Capturing Phase)</strong>: 이벤트가 루트 요소에서 시작하여 타깃 요소로 내려갑니다.</li>
+            <li><strong>타깃 단계 (Target Phase)</strong>: 이벤트가 실제 타깃 요소에 도달합니다.</li>
+            <li><strong>버블링 단계 (Bubbling Phase)</strong>: 이벤트가 타깃 요소에서 시작하여 루트 요소로 올라갑니다.</li>
+        </ol>
+        
+        <div class="diagram">
+            <pre>
+    ┌─────────────────┐
+    │     Document    │
+    └────────┬────────┘
+             │
+             ▼
+    ┌─────────────────┐
+    │       div       │ ◄─── 3. 버블링 단계
+    │  (grandparent)  │      (상향식 전파)
+    └────────┬────────┘
+             │
+             ▼
+    ┌─────────────────┐
+    │       div       │
+    │     (parent)    │
+    └────────┬────────┘
+             │
+             ▼         
+    ┌─────────────────┐
+    │       div       │ ◄─── 2. 타깃 단계
+    │     (child)     │      (이벤트 발생)
+    └─────────────────┘
+             ▲
+             │         
+             │        
+      1. 캡처링 단계
+        (하향식 전파)
+            </pre>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>이벤트 전파 예제</h2>
+        <p>아래 중첩된 상자들을 클릭해보세요. 이벤트가 어떻게 전파되는지 로그에서 확인할 수 있습니다.</p>
+        
+        <div class="controls">
+            <button id="toggle-capturing">캡처링 단계 이벤트 토글</button>
+            <button id="toggle-bubbling">버블링 단계 이벤트 토글</button>
+            <button id="stop-propagation-toggle">이벤트 전파 중단 토글</button>
+            <button class="clear-btn" id="clear-log">로그 지우기</button>
+        </div>
+        
+        <div class="demo-container">
+            <div class="demo grandparent" id="grandparent">
+                할아버지 요소
+                <div class="demo parent" id="parent">
+                    부모 요소
+                    <div class="demo child" id="child">
+                        자식 요소
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-log" id="event-log"></div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>addEventListener의 세 번째 매개변수</h2>
+        <p><code>addEventListener</code> 메서드의 세 번째 매개변수는 이벤트 리스너가 캡처링 단계에서 실행될지 여부를 지정합니다.</p>
+        
+        <pre><code>// 버블링 단계에서 실행 (기본값)
+element.addEventListener('click', handler, false);
+
+// 캡처링 단계에서 실행
+element.addEventListener('click', handler, true);</code></pre>
+        
+        <p>또는 다음과 같이 옵션 객체를 사용할 수도 있습니다:</p>
+        
+        <pre><code>element.addEventListener('click', handler, {
+  capture: true,  // 캡처링 단계에서 실행
+  once: true,     // 이벤트가 한 번만 실행됨
+  passive: true   // preventDefault()를 호출하지 않음을 브라우저에 알림
+});</code></pre>
+    </div>
+    
+    <div class="section">
+        <h2>이벤트 전파 중단하기</h2>
+        <p>이벤트 전파를 중단하려면 <code>event.stopPropagation()</code> 메서드를 사용합니다.</p>
+        <pre><code>element.addEventListener('click', function(event) {
+  event.stopPropagation();
+  // 이벤트가 더 이상 전파되지 않음
+});</code></pre>
+        
+        <p><strong>주의:</strong> 이벤트 전파를 중단하면 디버깅이 어려워질 수 있으므로 꼭 필요한 경우에만 사용하는 것이 좋습니다.</p>
+    </div>
+    
+    <script>
+        // 요소 선택
+        const grandparent = document.getElementById('grandparent');
+        const parent = document.getElementById('parent');
+        const child = document.getElementById('child');
+        const eventLog = document.getElementById('event-log');
+        
+        // 캡처링 및 버블링 설정
+        let useCapturing = true;
+        let useBubbling = true;
+        let stopPropagation = false;
+        
+        // 로그 출력 함수
+        function log(text) {
+            const entry = document.createElement('div');
+            entry.textContent = text;
+            eventLog.appendChild(entry);
+            eventLog.scrollTop = eventLog.scrollHeight;
+        }
+        
+        // 이벤트 핸들러 함수
+        function handleClick(event) {
+            const phase = event.eventPhase === 1 ? "캡처링" : 
+                         event.eventPhase === 2 ? "타깃" : "버블링";
+            
+            log(`${event.currentTarget.id} 요소에서 ${phase} 단계 이벤트 발생`);
+            
+            if (stopPropagation) {
+                event.stopPropagation();
+                log(`💡 ${event.currentTarget.id} 요소에서 이벤트 전파 중단`);
+            }
+        }
+        
+        // 이벤트 리스너 설정 함수
+        function setupEventListeners() {
+            // 먼저, 모든 이벤트 리스너 제거
+            removeEventListeners();
+            
+            // 캡처링 단계 이벤트 리스너
+            if (useCapturing) {
+                grandparent.addEventListener('click', handleClick, true);
+                parent.addEventListener('click', handleClick, true);
+                child.addEventListener('click', handleClick, true);
+                log("✅ 캡처링 단계 이벤트 리스너가 설정되었습니다.");
+            }
+            
+            // 버블링 단계 이벤트 리스너
+            if (useBubbling) {
+                grandparent.addEventListener('click', handleClick, false);
+                parent.addEventListener('click', handleClick, false);
+                child.addEventListener('click', handleClick, false);
+                log("✅ 버블링 단계 이벤트 리스너가 설정되었습니다.");
+            }
+        }
+        
+        // 이벤트 리스너 제거 함수
+        function removeEventListeners() {
+            grandparent.removeEventListener('click', handleClick, true);
+            parent.removeEventListener('click', handleClick, true);
+            child.removeEventListener('click', handleClick, true);
+            
+            grandparent.removeEventListener('click', handleClick, false);
+            parent.removeEventListener('click', handleClick, false);
+            child.removeEventListener('click', handleClick, false);
+        }
+        
+        // 버튼 이벤트 설정
+        document.getElementById('toggle-capturing').addEventListener('click', function() {
+            useCapturing = !useCapturing;
+            setupEventListeners();
+            this.textContent = useCapturing ? "캡처링 단계 이벤트 해제" : "캡처링 단계 이벤트 설정";
+        });
+        
+        document.getElementById('toggle-bubbling').addEventListener('click', function() {
+            useBubbling = !useBubbling;
+            setupEventListeners();
+            this.textContent = useBubbling ? "버블링 단계 이벤트 해제" : "버블링 단계 이벤트 설정";
+        });
+        
+        document.getElementById('stop-propagation-toggle').addEventListener('click', function() {
+            stopPropagation = !stopPropagation;
+            this.textContent = stopPropagation ? "이벤트 전파 중단 해제" : "이벤트 전파 중단 설정";
+            log(`💡 이벤트 전파 중단 ${stopPropagation ? "활성화" : "비활성화"}`);
+        });
+        
+        document.getElementById('clear-log').addEventListener('click', function() {
+            eventLog.innerHTML = '';
+        });
+        
+        // 초기 이벤트 리스너 설정
+        setupEventListeners();
+    </script>
+</body>
+</html> 

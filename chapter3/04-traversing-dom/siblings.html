@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 트래버싱 - 형제 요소 관계</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            border: 2px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .navbar {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+        .menu-item {
+            display: inline-block;
+            background-color: #e0f7fa;
+            padding: 10px 15px;
+            margin: 5px;
+            border: 1px solid #80deea;
+        }
+        .active {
+            background-color: #4db6ac;
+            color: white;
+        }
+        .menu-desc {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #4db6ac;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+        .highlight {
+            outline: 3px solid #ff5722;
+            animation: highlight 2s infinite;
+        }
+        @keyframes highlight {
+            0% { outline-color: #ff5722; }
+            50% { outline-color: transparent; }
+            100% { outline-color: #ff5722; }
+        }
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-left: 4px solid #2196F3;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+        .list-demo {
+            padding: 0;
+            margin: 20px 0;
+        }
+        .list-item {
+            list-style-type: none;
+            background-color: #e1f5fe;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #b3e5fc;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM 트래버싱 - 형제 요소 관계</h1>
+    <p>이 예제에서는 DOM에서 형제 요소에 접근하는 다양한 방법을 배웁니다.</p>
+
+    <div class="container">
+        <h2>내비게이션 메뉴 예제</h2>
+        <div class="navbar">
+            <!-- 주석 노드 -->
+            <span id="menu1" class="menu-item">홈</span>
+            <!-- 주석 노드 -->
+            <span id="menu2" class="menu-item active">제품</span>
+            텍스트 노드
+            <span id="menu3" class="menu-item">서비스</span>
+            <span id="menu4" class="menu-item">고객지원</span>
+            <span id="menu5" class="menu-item">회사소개</span>
+        </div>
+        <div class="menu-desc">
+            현재 활성 메뉴: <strong>제품</strong>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>리스트 예제</h2>
+        <ul id="list-demo" class="list-demo">
+            <li id="item1" class="list-item">첫 번째 항목</li>
+            <li id="item2" class="list-item">두 번째 항목</li>
+            <li id="item3" class="list-item">세 번째 항목</li>
+            <li id="item4" class="list-item">네 번째 항목</li>
+            <li id="item5" class="list-item">다섯 번째 항목</li>
+        </ul>
+    </div>
+
+    <h2>형제 노드 접근하기</h2>
+    <div class="controls">
+        <button onclick="accessSiblingNodes()">nextSibling/previousSibling 사용</button>
+        <button onclick="accessElementSiblings()">nextElementSibling/previousElementSibling 사용</button>
+    </div>
+
+    <h2>활성 메뉴 변경하기</h2>
+    <div class="controls">
+        <button onclick="moveActiveMenuNext()">다음 메뉴 활성화</button>
+        <button onclick="moveActiveMenuPrev()">이전 메뉴 활성화</button>
+    </div>
+
+    <h2>리스트 항목 탐색하기</h2>
+    <div class="controls">
+        <button onclick="highlightFirstItem()">첫 번째 항목</button>
+        <button onclick="highlightLastItem()">마지막 항목</button>
+        <button onclick="moveHighlightNext()">다음 항목</button>
+        <button onclick="moveHighlightPrev()">이전 항목</button>
+    </div>
+
+    <h2>결과</h2>
+    <div id="result"></div>
+
+    <script>
+        // 결과 출력 함수
+        function showResult(message) {
+            document.getElementById('result').innerHTML = message;
+        }
+
+        // 강조 표시 함수들
+        function resetHighlights() {
+            const elements = document.querySelectorAll('.highlight');
+            elements.forEach(el => el.classList.remove('highlight'));
+        }
+
+        function highlightElement(element) {
+            resetHighlights();
+            if (element) {
+                element.classList.add('highlight');
+            }
+        }
+
+        // 현재 하이라이트된 요소 추적
+        let currentHighlightedItem = null;
+
+        // 1. 형제 노드 접근하기
+        function accessSiblingNodes() {
+            resetHighlights();
+            const activeMenu = document.querySelector('.active');
+            const nextSibling = activeMenu.nextSibling;
+            const previousSibling = activeMenu.previousSibling;
+            
+            let resultText = `
+                <p><code>nextSibling</code>과 <code>previousSibling</code>을 사용하여 형제 노드에 접근:</p>
+                <p>현재 활성 메뉴: <strong>"${activeMenu.textContent}"</strong></p>
+            `;
+            
+            // 이전 형제 노드 정보
+            resultText += `<p><strong>이전 형제 노드:</strong> `;
+            if (previousSibling) {
+                if (previousSibling.nodeType === 1) { // Element node
+                    resultText += `요소 노드 - "${previousSibling.textContent.trim()}"`;
+                    highlightElement(previousSibling);
+                } else if (previousSibling.nodeType === 3) { // Text node
+                    const text = previousSibling.textContent.trim();
+                    resultText += `텍스트 노드 - "${text ? text : '공백'}"`;
+                } else if (previousSibling.nodeType === 8) { // Comment node
+                    resultText += `주석 노드 - "${previousSibling.textContent.trim()}"`;
+                }
+            } else {
+                resultText += `없음 (null)`;
+            }
+            resultText += `</p>`;
+            
+            // 다음 형제 노드 정보
+            resultText += `<p><strong>다음 형제 노드:</strong> `;
+            if (nextSibling) {
+                if (nextSibling.nodeType === 1) { // Element node
+                    resultText += `요소 노드 - "${nextSibling.textContent.trim()}"`;
+                    if (!previousSibling || previousSibling.nodeType !== 1) {
+                        highlightElement(nextSibling);
+                    }
+                } else if (nextSibling.nodeType === 3) { // Text node
+                    const text = nextSibling.textContent.trim();
+                    resultText += `텍스트 노드 - "${text ? text : '공백'}"`;
+                } else if (nextSibling.nodeType === 8) { // Comment node
+                    resultText += `주석 노드 - "${nextSibling.textContent.trim()}"`;
+                }
+            } else {
+                resultText += `없음 (null)`;
+            }
+            resultText += `</p>`;
+            
+            resultText += `<p><em>참고: nextSibling과 previousSibling은 요소 노드뿐만 아니라 텍스트 노드와 주석 노드도 반환합니다.</em></p>`;
+            
+            showResult(resultText);
+        }
+
+        function accessElementSiblings() {
+            resetHighlights();
+            const activeMenu = document.querySelector('.active');
+            const nextElementSibling = activeMenu.nextElementSibling;
+            const previousElementSibling = activeMenu.previousElementSibling;
+            
+            let resultText = `
+                <p><code>nextElementSibling</code>과 <code>previousElementSibling</code>을 사용하여 형제 요소에 접근:</p>
+                <p>현재 활성 메뉴: <strong>"${activeMenu.textContent}"</strong></p>
+            `;
+            
+            // 이전 형제 요소 정보
+            resultText += `<p><strong>이전 형제 요소:</strong> `;
+            if (previousElementSibling) {
+                resultText += `"${previousElementSibling.textContent.trim()}" (ID: ${previousElementSibling.id})`;
+                highlightElement(previousElementSibling);
+            } else {
+                resultText += `없음 (null)`;
+            }
+            resultText += `</p>`;
+            
+            // 다음 형제 요소 정보
+            resultText += `<p><strong>다음 형제 요소:</strong> `;
+            if (nextElementSibling) {
+                resultText += `"${nextElementSibling.textContent.trim()}" (ID: ${nextElementSibling.id})`;
+                if (!previousElementSibling) {
+                    highlightElement(nextElementSibling);
+                }
+            } else {
+                resultText += `없음 (null)`;
+            }
+            resultText += `</p>`;
+            
+            resultText += `<p><em>참고: nextElementSibling과 previousElementSibling은 요소 노드만 반환합니다.</em></p>`;
+            
+            showResult(resultText);
+        }
+
+        // 2. 활성 메뉴 변경하기
+        function moveActiveMenuNext() {
+            const activeMenu = document.querySelector('.active');
+            const nextMenu = activeMenu.nextElementSibling;
+            
+            if (nextMenu && nextMenu.classList.contains('menu-item')) {
+                activeMenu.classList.remove('active');
+                nextMenu.classList.add('active');
+                highlightElement(nextMenu);
+                
+                document.querySelector('.menu-desc strong').textContent = nextMenu.textContent;
+                
+                showResult(`
+                    <p>활성 메뉴를 다음 메뉴로 변경했습니다.</p>
+                    <p>이전 활성 메뉴: "${activeMenu.textContent}"</p>
+                    <p>새 활성 메뉴: "${nextMenu.textContent}"</p>
+                `);
+            } else {
+                highlightElement(activeMenu);
+                showResult(`
+                    <p>다음 메뉴 항목이 없습니다. 현재 마지막 메뉴가 활성화되어 있습니다.</p>
+                    <p>현재 활성 메뉴: "${activeMenu.textContent}"</p>
+                `);
+            }
+        }
+
+        function moveActiveMenuPrev() {
+            const activeMenu = document.querySelector('.active');
+            const prevMenu = activeMenu.previousElementSibling;
+            
+            if (prevMenu && prevMenu.classList.contains('menu-item')) {
+                activeMenu.classList.remove('active');
+                prevMenu.classList.add('active');
+                highlightElement(prevMenu);
+                
+                document.querySelector('.menu-desc strong').textContent = prevMenu.textContent;
+                
+                showResult(`
+                    <p>활성 메뉴를 이전 메뉴로 변경했습니다.</p>
+                    <p>이전 활성 메뉴: "${activeMenu.textContent}"</p>
+                    <p>새 활성 메뉴: "${prevMenu.textContent}"</p>
+                `);
+            } else {
+                highlightElement(activeMenu);
+                showResult(`
+                    <p>이전 메뉴 항목이 없습니다. 현재 첫 번째 메뉴가 활성화되어 있습니다.</p>
+                    <p>현재 활성 메뉴: "${activeMenu.textContent}"</p>
+                `);
+            }
+        }
+
+        // 3. 리스트 항목 탐색하기
+        function highlightFirstItem() {
+            const firstItem = document.querySelector('#list-demo').firstElementChild;
+            highlightElement(firstItem);
+            currentHighlightedItem = firstItem;
+            
+            showResult(`
+                <p>첫 번째 항목을 선택했습니다.</p>
+                <p>선택된 항목: "${firstItem.textContent}"</p>
+            `);
+        }
+
+        function highlightLastItem() {
+            const lastItem = document.querySelector('#list-demo').lastElementChild;
+            highlightElement(lastItem);
+            currentHighlightedItem = lastItem;
+            
+            showResult(`
+                <p>마지막 항목을 선택했습니다.</p>
+                <p>선택된 항목: "${lastItem.textContent}"</p>
+            `);
+        }
+
+        function moveHighlightNext() {
+            if (!currentHighlightedItem) {
+                highlightFirstItem();
+                return;
+            }
+            
+            const nextItem = currentHighlightedItem.nextElementSibling;
+            
+            if (nextItem) {
+                highlightElement(nextItem);
+                currentHighlightedItem = nextItem;
+                
+                showResult(`
+                    <p>다음 항목으로 이동했습니다.</p>
+                    <p>선택된 항목: "${nextItem.textContent}"</p>
+                `);
+            } else {
+                showResult(`
+                    <p>다음 항목이 없습니다. 현재 마지막 항목이 선택되어 있습니다.</p>
+                    <p>선택된 항목: "${currentHighlightedItem.textContent}"</p>
+                `);
+            }
+        }
+
+        function moveHighlightPrev() {
+            if (!currentHighlightedItem) {
+                highlightLastItem();
+                return;
+            }
+            
+            const prevItem = currentHighlightedItem.previousElementSibling;
+            
+            if (prevItem) {
+                highlightElement(prevItem);
+                currentHighlightedItem = prevItem;
+                
+                showResult(`
+                    <p>이전 항목으로 이동했습니다.</p>
+                    <p>선택된 항목: "${prevItem.textContent}"</p>
+                `);
+            } else {
+                showResult(`
+                    <p>이전 항목이 없습니다. 현재 첫 번째 항목이 선택되어 있습니다.</p>
+                    <p>선택된 항목: "${currentHighlightedItem.textContent}"</p>
+                `);
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 선택자 비교</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 2px 5px;
+            font-family: monospace;
+            border-radius: 3px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .demo-area {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .output {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            min-height: 100px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .pros {
+            color: #27ae60;
+        }
+        .cons {
+            color: #c0392b;
+        }
+        .note {
+            color: #8e44ad;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM 선택자 메서드 비교</h1>
+    
+    <div class="container">
+        <h2>주요 DOM 선택자 메서드</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>메서드</th>
+                    <th>반환 타입</th>
+                    <th>라이브 업데이트</th>
+                    <th>특징</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>getElementById()</code></td>
+                    <td>Element 객체</td>
+                    <td>N/A (단일 요소)</td>
+                    <td>단일 요소 반환, ID가 없으면 null 반환</td>
+                </tr>
+                <tr>
+                    <td><code>getElementsByClassName()</code></td>
+                    <td>HTMLCollection</td>
+                    <td>O (라이브)</td>
+                    <td>DOM이 변경되면 자동으로 업데이트됨</td>
+                </tr>
+                <tr>
+                    <td><code>getElementsByTagName()</code></td>
+                    <td>HTMLCollection</td>
+                    <td>O (라이브)</td>
+                    <td>DOM이 변경되면 자동으로 업데이트됨</td>
+                </tr>
+                <tr>
+                    <td><code>querySelector()</code></td>
+                    <td>Element 객체</td>
+                    <td>N/A (단일 요소)</td>
+                    <td>첫 번째 일치 요소만 반환, 없으면 null</td>
+                </tr>
+                <tr>
+                    <td><code>querySelectorAll()</code></td>
+                    <td>NodeList</td>
+                    <td>X (정적)</td>
+                    <td>DOM이 변경되어도 결과 업데이트 안됨</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="container">
+        <h2>라이브 컬렉션 vs 정적 컬렉션 데모</h2>
+        
+        <div class="demo-area">
+            <h3>테스트 요소:</h3>
+            <div id="items-container">
+                <div class="test-item">항목 1</div>
+                <div class="test-item">항목 2</div>
+                <div class="test-item">항목 3</div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button id="btn-add-item">항목 추가</button>
+                <button id="btn-reset-items">초기화</button>
+                <button id="btn-run-test">선택자 비교 테스트</button>
+            </div>
+            
+            <div id="output" class="output"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>선택자 결론</h2>
+        
+        <h3>언제 어떤 선택자를 사용해야 할까요?</h3>
+        
+        <h4>1. <code>getElementById()</code></h4>
+        <ul>
+            <li class="pros">가장 빠른 성능</li>
+            <li class="pros">ID가 있는 특정 요소를 선택할 때 최적</li>
+            <li class="cons">ID가 없는 요소에는 사용 불가</li>
+        </ul>
+        
+        <h4>2. <code>getElementsByClassName()</code> / <code>getElementsByTagName()</code></h4>
+        <ul>
+            <li class="pros">DOM 변경을 자동 반영하는 라이브 컬렉션</li>
+            <li class="pros">단순한 클래스나 태그 선택에 효율적</li>
+            <li class="note">DOM이 자주 변경되는 상황에서 유용</li>
+        </ul>
+        
+        <h4>3. <code>querySelector()</code> / <code>querySelectorAll()</code></h4>
+        <ul>
+            <li class="pros">다양한 CSS 선택자 지원</li>
+            <li class="pros">복잡한 선택 조건을 간결하게 표현 가능</li>
+            <li class="cons">다른 방법보다 약간 느림</li>
+            <li class="note">복잡한 선택이 필요하거나 정적 스냅샷이 필요할 때 사용</li>
+        </ul>
+    </div>
+    
+    <script src="selectors-comparison.js"></script>
+</body>
+</html> 

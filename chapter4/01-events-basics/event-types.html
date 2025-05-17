@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 이벤트 유형</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .demo-area {
+            background-color: #e9e9e9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, select, textarea {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+        }
+        .box {
+            width: 150px;
+            height: 75px;
+            background-color: #2196F3;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #drag-element {
+            width: 100px;
+            height: 50px;
+            background-color: #ff9800;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            cursor: move;
+        }
+        #drop-area {
+            width: 200px;
+            height: 100px;
+            background-color: #f1f1f1;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .result {
+            background-color: #424242;
+            color: #fff;
+            font-family: monospace;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            min-height: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript 이벤트 유형</h1>
+    
+    <div class="section">
+        <h2>이벤트 유형 개요</h2>
+        <p>JavaScript에서는 다양한 종류의 이벤트를 처리할 수 있습니다. 이벤트는 사용자 동작이나 시스템 이벤트에 의해 발생됩니다.</p>
+        <p>이 페이지에서는 주요 이벤트 유형을 카테고리별로 살펴보고 예제를 통해 실습해볼 수 있습니다.</p>
+        <div id="events-log" class="result"></div>
+    </div>
+    
+    <div class="section">
+        <h2>1. 마우스 이벤트</h2>
+        <p>사용자의 마우스 동작과 관련된 이벤트입니다.</p>
+        
+        <table>
+            <tr>
+                <th>이벤트 이름</th>
+                <th>설명</th>
+            </tr>
+            <tr>
+                <td>click</td>
+                <td>요소를 클릭했을 때</td>
+            </tr>
+            <tr>
+                <td>dblclick</td>
+                <td>요소를 더블 클릭했을 때</td>
+            </tr>
+            <tr>
+                <td>mousedown</td>
+                <td>마우스 버튼을 누를 때</td>
+            </tr>
+            <tr>
+                <td>mouseup</td>
+                <td>마우스 버튼을 뗄 때</td>
+            </tr>
+            <tr>
+                <td>mousemove</td>
+                <td>마우스를 움직일 때</td>
+            </tr>
+            <tr>
+                <td>mouseover</td>
+                <td>마우스가 요소 위로 들어올 때</td>
+            </tr>
+            <tr>
+                <td>mouseout</td>
+                <td>마우스가 요소에서 나갈 때</td>
+            </tr>
+            <tr>
+                <td>mouseenter</td>
+                <td>마우스가 요소에 들어올 때 (버블링 없음)</td>
+            </tr>
+            <tr>
+                <td>mouseleave</td>
+                <td>마우스가 요소에서 나갈 때 (버블링 없음)</td>
+            </tr>
+            <tr>
+                <td>contextmenu</td>
+                <td>마우스 오른쪽 버튼을 클릭했을 때</td>
+            </tr>
+        </table>
+        
+        <div class="demo-area">
+            <h3>마우스 이벤트 데모</h3>
+            <div id="mouse-box" class="box">마우스 이벤트</div>
+            <p>위 상자에 다양한 마우스 동작을 시도해보세요.</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>2. 키보드 이벤트</h2>
+        <p>사용자의 키보드 동작과 관련된 이벤트입니다.</p>
+        
+        <table>
+            <tr>
+                <th>이벤트 이름</th>
+                <th>설명</th>
+            </tr>
+            <tr>
+                <td>keydown</td>
+                <td>키를 누를 때</td>
+            </tr>
+            <tr>
+                <td>keyup</td>
+                <td>키를 뗄 때</td>
+            </tr>
+            <tr>
+                <td>keypress</td>
+                <td>문자 키를 누를 때 (더 이상 권장되지 않음)</td>
+            </tr>
+        </table>
+        
+        <div class="demo-area">
+            <h3>키보드 이벤트 데모</h3>
+            <input type="text" id="keyboard-input" placeholder="여기에 키를 입력하세요">
+            <p>위 입력 필드에 키를 입력해보세요.</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>3. 폼 이벤트</h2>
+        <p>HTML 폼과 관련된 이벤트입니다.</p>
+        
+        <table>
+            <tr>
+                <th>이벤트 이름</th>
+                <th>설명</th>
+            </tr>
+            <tr>
+                <td>submit</td>
+                <td>폼이 제출될 때</td>
+            </tr>
+            <tr>
+                <td>reset</td>
+                <td>폼이 초기화될 때</td>
+            </tr>
+            <tr>
+                <td>change</td>
+                <td>입력 요소의 값이 변경되고 포커스를 잃을 때</td>
+            </tr>
+            <tr>
+                <td>input</td>
+                <td>입력 요소의 값이 변경될 때 (실시간)</td>
+            </tr>
+            <tr>
+                <td>focus</td>
+                <td>요소가 포커스를 얻을 때</td>
+            </tr>
+            <tr>
+                <td>blur</td>
+                <td>요소가 포커스를 잃을 때</td>
+            </tr>
+        </table>
+        
+        <div class="demo-area">
+            <h3>폼 이벤트 데모</h3>
+            <form id="demo-form">
+                <input type="text" id="name-field" placeholder="이름" required>
+                <select id="select-field">
+                    <option value="">선택하세요</option>
+                    <option value="option1">옵션 1</option>
+                    <option value="option2">옵션 2</option>
+                    <option value="option3">옵션 3</option>
+                </select>
+                <textarea id="message-field" placeholder="메시지"></textarea>
+                <button type="submit">제출</button>
+                <button type="reset">초기화</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>4. 문서/창 이벤트</h2>
+        <p>문서나 창과 관련된 이벤트입니다.</p>
+        
+        <table>
+            <tr>
+                <th>이벤트 이름</th>
+                <th>설명</th>
+            </tr>
+            <tr>
+                <td>load</td>
+                <td>페이지와 모든 리소스가 로드 완료되었을 때</td>
+            </tr>
+            <tr>
+                <td>DOMContentLoaded</td>
+                <td>HTML 문서가 파싱 완료되었을 때 (이미지, 스타일시트 등 기다리지 않음)</td>
+            </tr>
+            <tr>
+                <td>resize</td>
+                <td>창 크기가 변경될 때</td>
+            </tr>
+            <tr>
+                <td>scroll</td>
+                <td>페이지나 요소가 스크롤될 때</td>
+            </tr>
+            <tr>
+                <td>beforeunload</td>
+                <td>페이지를 떠나기 전</td>
+            </tr>
+            <tr>
+                <td>unload</td>
+                <td>페이지를 떠날 때</td>
+            </tr>
+        </table>
+        
+        <div class="demo-area">
+            <h3>문서/창 이벤트 데모</h3>
+            <p>창 크기를 조절하거나 페이지를 스크롤해보세요.</p>
+            <button id="scroll-btn">페이지 스크롤 시키기</button>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>5. 드래그 앤 드롭 이벤트</h2>
+        <p>HTML5의 드래그 앤 드롭 API와 관련된 이벤트입니다.</p>
+        
+        <table>
+            <tr>
+                <th>이벤트 이름</th>
+                <th>설명</th>
+            </tr>
+            <tr>
+                <td>dragstart</td>
+                <td>드래그 시작 시</td>
+            </tr>
+            <tr>
+                <td>drag</td>
+                <td>드래그 중</td>
+            </tr>
+            <tr>
+                <td>dragend</td>
+                <td>드래그 종료 시</td>
+            </tr>
+            <tr>
+                <td>dragenter</td>
+                <td>드래그한 요소가 드롭 대상에 들어갈 때</td>
+            </tr>
+            <tr>
+                <td>dragover</td>
+                <td>드래그한 요소가 드롭 대상 위에 있을 때</td>
+            </tr>
+            <tr>
+                <td>dragleave</td>
+                <td>드래그한 요소가 드롭 대상을 벗어날 때</td>
+            </tr>
+            <tr>
+                <td>drop</td>
+                <td>드래그한 요소를 드롭 대상에 놓을 때</td>
+            </tr>
+        </table>
+        
+        <div class="demo-area">
+            <h3>드래그 앤 드롭 데모</h3>
+            <div id="drag-element" draggable="true">드래그 요소</div>
+            <div id="drop-area">여기에 드롭하세요</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>6. 미디어 이벤트</h2>
+        <p>오디오 및 비디오 요소와 관련된 이벤트입니다.</p>
+        
+        <table>
+            <tr>
+                <th>이벤트 이름</th>
+                <th>설명</th>
+            </tr>
+            <tr>
+                <td>play</td>
+                <td>재생이 시작될 때</td>
+            </tr>
+            <tr>
+                <td>pause</td>
+                <td>재생이 일시 중지될 때</td>
+            </tr>
+            <tr>
+                <td>ended</td>
+                <td>재생이 끝날 때</td>
+            </tr>
+            <tr>
+                <td>volumechange</td>
+                <td>볼륨이 변경될 때</td>
+            </tr>
+            <tr>
+                <td>timeupdate</td>
+                <td>현재 재생 시간이 변경될 때</td>
+            </tr>
+        </table>
+        
+        <div class="demo-area">
+            <h3>미디어 이벤트 데모</h3>
+            <audio id="audio-player" controls>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                브라우저가 오디오 요소를 지원하지 않습니다.
+            </audio>
+        </div>
+    </div>
+    
+    <script>
+        // 이벤트 로그 기능
+        const eventsLog = document.getElementById('events-log');
+        
+        function logEvent(eventName, additionalInfo = '') {
+            const entry = document.createElement('div');
+            entry.textContent = `${eventName} 이벤트 발생 ${additionalInfo ? '- ' + additionalInfo : ''}`;
+            eventsLog.appendChild(entry);
+            eventsLog.scrollTop = eventsLog.scrollHeight;
+            
+            // 최대 로그 개수 유지 (선택 사항)
+            if (eventsLog.children.length > 10) {
+                eventsLog.removeChild(eventsLog.children[0]);
+            }
+        }
+        
+        // 1. 마우스 이벤트
+        const mouseBox = document.getElementById('mouse-box');
+        
+        mouseBox.addEventListener('click', () => logEvent('click', '마우스 상자'));
+        mouseBox.addEventListener('dblclick', () => logEvent('dblclick', '마우스 상자'));
+        mouseBox.addEventListener('mousedown', () => logEvent('mousedown', '마우스 상자'));
+        mouseBox.addEventListener('mouseup', () => logEvent('mouseup', '마우스 상자'));
+        mouseBox.addEventListener('mouseover', () => logEvent('mouseover', '마우스 상자'));
+        mouseBox.addEventListener('mouseout', () => logEvent('mouseout', '마우스 상자'));
+        mouseBox.addEventListener('contextmenu', (e) => {
+            e.preventDefault(); // 기본 컨텍스트 메뉴 방지
+            logEvent('contextmenu', '마우스 상자');
+        });
+        
+        // 2. 키보드 이벤트
+        const keyboardInput = document.getElementById('keyboard-input');
+        
+        keyboardInput.addEventListener('keydown', (e) => {
+            logEvent('keydown', `키: ${e.key}, 코드: ${e.code}`);
+        });
+        
+        keyboardInput.addEventListener('keyup', (e) => {
+            logEvent('keyup', `키: ${e.key}, 코드: ${e.code}`);
+        });
+        
+        // 3. 폼 이벤트
+        const demoForm = document.getElementById('demo-form');
+        const nameField = document.getElementById('name-field');
+        const selectField = document.getElementById('select-field');
+        const messageField = document.getElementById('message-field');
+        
+        demoForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // 실제 제출 방지
+            logEvent('submit', '폼');
+        });
+        
+        demoForm.addEventListener('reset', () => {
+            logEvent('reset', '폼');
+        });
+        
+        nameField.addEventListener('focus', () => logEvent('focus', '이름 필드'));
+        nameField.addEventListener('blur', () => logEvent('blur', '이름 필드'));
+        nameField.addEventListener('input', () => logEvent('input', `이름 필드: ${nameField.value}`));
+        
+        selectField.addEventListener('change', () => {
+            logEvent('change', `선택 필드: ${selectField.value}`);
+        });
+        
+        // 4. 문서/창 이벤트
+        window.addEventListener('resize', () => {
+            logEvent('resize', `창 크기: ${window.innerWidth}x${window.innerHeight}`);
+        });
+        
+        document.addEventListener('scroll', () => {
+            logEvent('scroll', `스크롤 위치: ${window.scrollY}px`);
+        });
+        
+        document.getElementById('scroll-btn').addEventListener('click', () => {
+            window.scrollBy(0, 100); // 아래로 100px 스크롤
+        });
+        
+        // 5. 드래그 앤 드롭 이벤트
+        const dragElement = document.getElementById('drag-element');
+        const dropArea = document.getElementById('drop-area');
+        
+        dragElement.addEventListener('dragstart', () => {
+            logEvent('dragstart', '드래그 요소');
+            dragElement.style.opacity = '0.4';
+        });
+        
+        dragElement.addEventListener('dragend', () => {
+            logEvent('dragend', '드래그 요소');
+            dragElement.style.opacity = '1';
+        });
+        
+        // 드롭 영역 이벤트
+        dropArea.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            logEvent('dragenter', '드롭 영역');
+            dropArea.style.background = '#cceeff';
+        });
+        
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault(); // 드롭을 허용하기 위해 필요
+        });
+        
+        dropArea.addEventListener('dragleave', () => {
+            logEvent('dragleave', '드롭 영역');
+            dropArea.style.background = '#f1f1f1';
+        });
+        
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            logEvent('drop', '드롭 영역');
+            dropArea.style.background = '#ccffcc';
+            setTimeout(() => {
+                dropArea.style.background = '#f1f1f1';
+            }, 500);
+        });
+        
+        // 6. 미디어 이벤트
+        const audioPlayer = document.getElementById('audio-player');
+        
+        audioPlayer.addEventListener('play', () => logEvent('play', '오디오 플레이어'));
+        audioPlayer.addEventListener('pause', () => logEvent('pause', '오디오 플레이어'));
+        audioPlayer.addEventListener('ended', () => logEvent('ended', '오디오 플레이어'));
+        audioPlayer.addEventListener('volumechange', () => {
+            logEvent('volumechange', `볼륨: ${audioPlayer.volume.toFixed(1)}`);
+        });
+        
+        // 페이지 로드 이벤트 (이미 실행됨)
+        window.addEventListener('load', () => {
+            logEvent('load', '페이지 로드 완료');
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            logEvent('DOMContentLoaded', 'DOM 로드 완료');
+        });
+    </script>
+</body>
+</html> 

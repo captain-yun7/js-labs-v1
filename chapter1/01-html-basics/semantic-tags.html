@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시맨틱 태그</title>
+    <style>
+        /* 시각적으로 구분하기 위한 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        header, nav, main, section, article, aside, footer {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        header { background-color: #e3f2fd; }
+        nav { background-color: #ffecb3; }
+        main { background-color: #ffffff; }
+        section { background-color: #e8f5e9; }
+        article { background-color: #f3e5f5; }
+        aside { background-color: #fff3e0; }
+        footer { background-color: #fafafa; }
+    </style>
+</head>
+<body>
+    <h1>시맨틱 태그란?</h1>
+    <p>시맨틱 태그는 내용의 의미를 명확하게 나타내는 HTML5 태그입니다. 시맨틱 태그를 사용하면 문서 구조의 의미가 더 명확해지고, 검색 엔진과 스크린 리더에 더 좋은 정보를 제공할 수 있습니다.</p>
+    
+    <header>
+        <h2>&lt;header&gt; 태그</h2>
+        <p>페이지나 섹션의 헤더 영역을 나타냅니다. 주로 제목, 로고, 네비게이션 등을 포함합니다.</p>
+    </header>
+    
+    <nav>
+        <h2>&lt;nav&gt; 태그</h2>
+        <p>페이지의 네비게이션 링크를 모아놓은 영역을 나타냅니다.</p>
+        <ul>
+            <li><a href="#">홈</a></li>
+            <li><a href="#">소개</a></li>
+            <li><a href="#">제품</a></li>
+            <li><a href="#">문의</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <h2>&lt;main&gt; 태그</h2>
+        <p>페이지의 주요 내용을 담는 영역을 나타냅니다. 한 페이지에 하나만 존재해야 합니다.</p>
+        
+        <section>
+            <h2>&lt;section&gt; 태그</h2>
+            <p>문서의 독립적인 섹션을 나타냅니다. 보통 제목(h1-h6)을 포함합니다.</p>
+            
+            <article>
+                <h3>&lt;article&gt; 태그</h3>
+                <p>독립적으로 구분되거나 재사용 가능한 영역을 나타냅니다. 블로그 포스트, 뉴스 기사, 리뷰 등에 적합합니다.</p>
+            </article>
+            
+            <article>
+                <h3>두 번째 article</h3>
+                <p>독립적인 콘텐츠의 또 다른 예시입니다.</p>
+            </article>
+        </section>
+        
+        <aside>
+            <h2>&lt;aside&gt; 태그</h2>
+            <p>페이지의 주요 내용과 간접적으로 연관된 보조 콘텐츠를 담는 영역입니다. 사이드바, 관련 링크, 광고 등에 적합합니다.</p>
+        </aside>
+    </main>
+    
+    <footer>
+        <h2>&lt;footer&gt; 태그</h2>
+        <p>페이지나 섹션의 푸터 영역을 나타냅니다. 저작권 정보, 연락처, 관련 문서 링크 등을 포함합니다.</p>
+        <p>&copy; 2023 시맨틱 HTML 예제</p>
+    </footer>
+    
+    <h2>그 외 유용한 시맨틱 태그</h2>
+    <ul>
+        <li><strong>&lt;figure&gt; 및 &lt;figcaption&gt;</strong>: 일러스트레이션, 다이어그램, 사진 등과 그 설명을 위한 태그</li>
+        <li><strong>&lt;time&gt;</strong>: 날짜와 시간을 나타내는 태그</li>
+        <li><strong>&lt;mark&gt;</strong>: 강조하거나 하이라이트하기 위한 태그</li>
+        <li><strong>&lt;details&gt; 및 &lt;summary&gt;</strong>: 토글 형태로 추가 세부 정보를 보여주기 위한 태그</li>
+    </ul>
+    
+    <h2>시맨틱 태그의 장점</h2>
+    <ol>
+        <li>검색 엔진 최적화(SEO) 향상</li>
+        <li>접근성 향상 (스크린 리더에 더 많은 정보 제공)</li>
+        <li>코드의 가독성과 유지보수성 향상</li>
+        <li>브라우저와 개발 도구에서의 기능 향상</li>
+    </ol>
+</body>
+</html> 

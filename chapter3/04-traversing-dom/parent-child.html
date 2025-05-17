@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 트래버싱 - 부모 자식 관계</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            border: 2px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .parent {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+        .child {
+            background-color: #e0f7fa;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #80deea;
+        }
+        .grandchild {
+            background-color: #fff9c4;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #fff176;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+        .highlight {
+            outline: 3px solid #ff5722;
+            animation: highlight 2s infinite;
+        }
+        @keyframes highlight {
+            0% { outline-color: #ff5722; }
+            50% { outline-color: transparent; }
+            100% { outline-color: #ff5722; }
+        }
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-left: 4px solid #2196F3;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM 트래버싱 - 부모 자식 관계</h1>
+    <p>이 예제에서는 DOM에서 부모 요소와 자식 요소에 접근하는 다양한 방법을 배웁니다.</p>
+
+    <div class="container">
+        <div id="parent-demo" class="parent">
+            부모 요소
+            <div id="child1" class="child">
+                첫 번째 자식 요소
+                <div id="grandchild1" class="grandchild">손자 요소 1</div>
+                <div id="grandchild2" class="grandchild">손자 요소 2</div>
+            </div>
+            <!-- 주석 노드 -->
+            <div id="child2" class="child">두 번째 자식 요소</div>
+            텍스트 노드
+            <div id="child3" class="child">세 번째 자식 요소</div>
+        </div>
+    </div>
+
+    <h2>부모 노드 접근하기</h2>
+    <div class="controls">
+        <button onclick="accessParentNode()">parentNode 사용</button>
+        <button onclick="accessParentElement()">parentElement 사용</button>
+    </div>
+
+    <h2>자식 노드 접근하기</h2>
+    <div class="controls">
+        <button onclick="accessChildNodes()">childNodes 사용</button>
+        <button onclick="accessChildren()">children 사용</button>
+        <button onclick="accessFirstLastChild()">firstChild/lastChild 사용</button>
+        <button onclick="accessFirstLastElementChild()">firstElementChild/lastElementChild 사용</button>
+    </div>
+
+    <h2>결과</h2>
+    <div id="result"></div>
+
+    <script>
+        // 결과 출력 함수
+        function showResult(message) {
+            document.getElementById('result').innerHTML = message;
+        }
+
+        // 강조 표시 함수들
+        function resetHighlights() {
+            const elements = document.querySelectorAll('.highlight');
+            elements.forEach(el => el.classList.remove('highlight'));
+        }
+
+        function highlightElement(element) {
+            resetHighlights();
+            if (element) {
+                element.classList.add('highlight');
+            }
+        }
+
+        // 1. 부모 노드 접근하기
+        function accessParentNode() {
+            resetHighlights();
+            const child = document.getElementById('child2');
+            const parent = child.parentNode;
+            
+            highlightElement(parent);
+            
+            showResult(`
+                <p><code>parentNode</code>를 사용하여 부모에 접근:</p>
+                <p>자식 요소: "${child.textContent.trim()}"의 부모 노드는 
+                "${parent.id || '(ID 없음)'}" 요소입니다.</p>
+                <p>부모 요소의 노드 타입: ${parent.nodeType} 
+                (${parent.nodeType === 1 ? 'ELEMENT_NODE' : '다른 타입'})</p>
+            `);
+        }
+
+        function accessParentElement() {
+            resetHighlights();
+            const grandchild = document.getElementById('grandchild1');
+            const parent = grandchild.parentElement;
+            
+            highlightElement(parent);
+            
+            showResult(`
+                <p><code>parentElement</code>를 사용하여 부모에 접근:</p>
+                <p>손자 요소: "${grandchild.textContent.trim()}"의 부모 요소는 
+                "${parent.id || '(ID 없음)'}" 요소입니다.</p>
+                <p>참고: document.documentElement.parentNode는 document이지만, 
+                document.documentElement.parentElement는 
+                ${document.documentElement.parentElement === null ? 'null' : '값이 있음'}입니다.</p>
+            `);
+        }
+
+        // 2. 자식 노드 접근하기
+        function accessChildNodes() {
+            resetHighlights();
+            const parent = document.getElementById('parent-demo');
+            const childNodes = parent.childNodes;
+            
+            highlightElement(parent);
+            
+            let result = `
+                <p><code>childNodes</code>를 사용하여 모든 자식 노드에 접근:</p>
+                <p>부모 요소는 총 ${childNodes.length}개의 자식 노드를 가지고 있습니다.</p>
+                <ul>
+            `;
+            
+            for (let i = 0; i < childNodes.length; i++) {
+                const node = childNodes[i];
+                const nodeType = node.nodeType === 1 ? 'ELEMENT_NODE' : 
+                                 node.nodeType === 3 ? 'TEXT_NODE' : 
+                                 node.nodeType === 8 ? 'COMMENT_NODE' : '기타';
+                
+                result += `<li>자식 노드 ${i+1}: ${nodeType} - `;
+                
+                if (node.nodeType === 1) { // Element node
+                    result += `ID: "${node.id}", 내용: "${node.textContent.trim().substring(0, 20)}"`;
+                } else if (node.nodeType === 3) { // Text node
+                    const text = node.textContent.trim();
+                    result += `내용: "${text ? text : '공백'}"`;
+                } else if (node.nodeType === 8) { // Comment node
+                    result += `내용: "${node.textContent.trim()}"`;
+                }
+                
+                result += `</li>`;
+            }
+            
+            result += `</ul>`;
+            showResult(result);
+        }
+
+        function accessChildren() {
+            resetHighlights();
+            const parent = document.getElementById('parent-demo');
+            const children = parent.children;
+            
+            highlightElement(parent);
+            
+            let result = `
+                <p><code>children</code>을 사용하여 자식 요소에만 접근:</p>
+                <p>부모 요소는 총 ${children.length}개의 자식 <strong>요소</strong>를 가지고 있습니다.</p>
+                <ul>
+            `;
+            
+            for (let i = 0; i < children.length; i++) {
+                const child = children[i];
+                result += `<li>자식 요소 ${i+1}: ID: "${child.id}", 내용: "${child.textContent.trim().substring(0, 20)}"</li>`;
+            }
+            
+            result += `</ul>`;
+            showResult(result);
+        }
+
+        function accessFirstLastChild() {
+            resetHighlights();
+            const parent = document.getElementById('parent-demo');
+            const firstChild = parent.firstChild;
+            const lastChild = parent.lastChild;
+            
+            let result = `
+                <p><code>firstChild</code>와 <code>lastChild</code>를 사용하여 첫/마지막 자식 노드에 접근:</p>
+                <p><strong>첫 번째 자식 노드</strong>: `;
+            
+            if (firstChild.nodeType === 1) { // Element node
+                result += `요소 노드, ID: "${firstChild.id}", 내용: "${firstChild.textContent.trim().substring(0, 20)}"`;
+                highlightElement(firstChild);
+            } else if (firstChild.nodeType === 3) { // Text node
+                result += `텍스트 노드, 내용: "${firstChild.textContent.trim() || '공백'}"`;
+            } else if (firstChild.nodeType === 8) { // Comment node
+                result += `주석 노드, 내용: "${firstChild.textContent.trim()}"`;
+            }
+            
+            result += `</p><p><strong>마지막 자식 노드</strong>: `;
+            
+            if (lastChild.nodeType === 1) { // Element node
+                result += `요소 노드, ID: "${lastChild.id}", 내용: "${lastChild.textContent.trim().substring(0, 20)}"`;
+                highlightElement(lastChild);
+            } else if (lastChild.nodeType === 3) { // Text node
+                result += `텍스트 노드, 내용: "${lastChild.textContent.trim() || '공백'}"`;
+            } else if (lastChild.nodeType === 8) { // Comment node
+                result += `주석 노드, 내용: "${lastChild.textContent.trim()}"`;
+            }
+            
+            result += `</p>`;
+            showResult(result);
+        }
+
+        function accessFirstLastElementChild() {
+            resetHighlights();
+            const parent = document.getElementById('parent-demo');
+            const firstElementChild = parent.firstElementChild;
+            const lastElementChild = parent.lastElementChild;
+            
+            highlightElement(firstElementChild);
+            setTimeout(() => {
+                resetHighlights();
+                highlightElement(lastElementChild);
+            }, 1500);
+            
+            showResult(`
+                <p><code>firstElementChild</code>와 <code>lastElementChild</code>를 사용하여 첫/마지막 자식 <strong>요소</strong>에만 접근:</p>
+                <p><strong>첫 번째 자식 요소</strong>: ID: "${firstElementChild.id}", 내용: "${firstElementChild.textContent.trim().substring(0, 20)}"</p>
+                <p><strong>마지막 자식 요소</strong>: ID: "${lastElementChild.id}", 내용: "${lastElementChild.textContent.trim().substring(0, 20)}"</p>
+            `);
+        }
+    </script>
+</body>
+</html> 

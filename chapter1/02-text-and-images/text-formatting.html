@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 텍스트 서식</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        .example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 2px;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+        mark {
+            background-color: #fff3cd;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML 텍스트 서식</h1>
+    
+    <p>HTML은 웹 페이지의 내용과 구조를 정의합니다. 텍스트를 서식화하는 다양한 태그를 제공하여 내용의 의미와 중요성을 나타낼 수 있습니다.</p>
+    
+    <h2>제목 태그 (Headings)</h2>
+    <div class="example">
+        <h1>제목 1 (h1)</h1>
+        <h2>제목 2 (h2)</h2>
+        <h3>제목 3 (h3)</h3>
+        <h4>제목 4 (h4)</h4>
+        <h5>제목 5 (h5)</h5>
+        <h6>제목 6 (h6)</h6>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;h1&gt;제목 1&lt;/h1&gt;
+&lt;h2&gt;제목 2&lt;/h2&gt;
+&lt;h3&gt;제목 3&lt;/h3&gt;
+&lt;h4&gt;제목 4&lt;/h4&gt;
+&lt;h5&gt;제목 5&lt;/h5&gt;
+&lt;h6&gt;제목 6&lt;/h6&gt;</code></pre>
+    
+    <h2>단락 (Paragraphs)</h2>
+    <div class="example">
+        <p>이것은 단락입니다. 단락은 본문의 기본 단위로, 관련된 내용을 함께 그룹화합니다.</p>
+        <p>새로운 단락은 새로운 줄에서 시작되며, 자동으로 위아래 여백이 적용됩니다.</p>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;p&gt;이것은 단락입니다.&lt;/p&gt;
+&lt;p&gt;새로운 단락입니다.&lt;/p&gt;</code></pre>
+    
+    <h2>텍스트 서식화 태그</h2>
+    <div class="example">
+        <p><strong>강조 텍스트 (strong)</strong> - 중요한 내용을 나타냅니다.</p>
+        <p><em>이탤릭체 텍스트 (em)</em> - 강조하거나 대조하는 내용을 나타냅니다.</p>
+        <p><mark>하이라이트 텍스트 (mark)</mark> - 주목해야 할 텍스트를 표시합니다.</p>
+        <p><small>작은 텍스트 (small)</small> - 저작권이나 법적 텍스트와 같은 작은 글씨에 사용합니다.</p>
+        <p><del>삭제된 텍스트 (del)</del> - 문서에서 삭제된 텍스트를 나타냅니다.</p>
+        <p><ins>추가된 텍스트 (ins)</ins> - 문서에 추가된 텍스트를 나타냅니다.</p>
+        <p><sub>아래 첨자 (sub)</sub> 및 <sup>위 첨자 (sup)</sup> - 수학 표기나 각주에 유용합니다.</p>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;strong&gt;강조 텍스트&lt;/strong&gt;
+&lt;em&gt;이탤릭체 텍스트&lt;/em&gt;
+&lt;mark&gt;하이라이트 텍스트&lt;/mark&gt;
+&lt;small&gt;작은 텍스트&lt;/small&gt;
+&lt;del&gt;삭제된 텍스트&lt;/del&gt;
+&lt;ins&gt;추가된 텍스트&lt;/ins&gt;
+&lt;sub&gt;아래 첨자&lt;/sub&gt; 및 &lt;sup&gt;위 첨자&lt;/sup&gt;</code></pre>
+    
+    <h2>인용 (Quotations)</h2>
+    <div class="example">
+        <blockquote cite="https://developer.mozilla.org/ko/">
+            웹 표준은 웹 사이트를 만들 때 기준이 되는 규칙으로, 접근성과 호환성을 보장하기 위해 중요합니다.
+        </blockquote>
+        <p>짧은 인용문은 <q>이렇게 따옴표로 표시됩니다</q>.</p>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;blockquote cite="출처 URL"&gt;
+    긴 인용문...
+&lt;/blockquote&gt;
+
+&lt;p&gt;짧은 인용문은 &lt;q&gt;이렇게 따옴표로 표시됩니다&lt;/q&gt;.&lt;/p&gt;</code></pre>
+    
+    <h2>줄바꿈과 수평선</h2>
+    <div class="example">
+        <p>첫 번째 줄<br>두 번째 줄</p>
+        <hr>
+        <p>수평선 아래 내용</p>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;p&gt;첫 번째 줄&lt;br&gt;두 번째 줄&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;수평선 아래 내용&lt;/p&gt;</code></pre>
+    
+    <h2>특수 문자</h2>
+    <div class="example">
+        <p>HTML에서는 특수 문자를 표시하기 위해 엔티티 코드를 사용합니다:</p>
+        <ul>
+            <li>&lt; - 작다 기호 (&amp;lt;)</li>
+            <li>&gt; - 크다 기호 (&amp;gt;)</li>
+            <li>&amp; - 앰퍼샌드 (&amp;amp;)</li>
+            <li>&quot; - 큰따옴표 (&amp;quot;)</li>
+            <li>&apos; - 작은따옴표 (&amp;apos;)</li>
+            <li>&copy; - 저작권 기호 (&amp;copy;)</li>
+            <li>&reg; - 등록 상표 (&amp;reg;)</li>
+        </ul>
+    </div>
+    
+    <p class="note">참고: HTML5에서는 시맨틱 태그를 사용하여 내용의 의미를 더 명확하게 표현할 수 있습니다.</p>
+</body>
+</html> 

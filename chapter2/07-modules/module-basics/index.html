@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 모듈 시스템</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        #output {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript 모듈 시스템</h1>
+    
+    <section>
+        <h2>모듈 예제 설명</h2>
+        <p>이 페이지는 JavaScript 모듈 시스템을 보여주는 예제입니다. 콘솔을 열어 결과를 확인하세요.</p>
+        <p>주요 모듈:</p>
+        <ul>
+            <li><strong>math.js</strong>: 수학 함수를 내보내는 모듈</li>
+            <li><strong>utils.js</strong>: 유틸리티 함수를 내보내는 모듈</li>
+            <li><strong>main.js</strong>: 모듈을 가져와 사용하는 메인 파일</li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>콘솔 출력</h2>
+        <button id="clearBtn">출력 지우기</button>
+        <div id="output"></div>
+    </section>
+    
+    <!-- 모듈 스크립트 불러오기 -->
+    <script type="module">
+        // 기존 콘솔 로그 오버라이드하여 웹 페이지에도 출력
+        const outputDiv = document.getElementById('output');
+        const originalLog = console.log;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const line = document.createElement('div');
+            line.textContent = args.map(arg => {
+                return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+            }).join(' ');
+            outputDiv.appendChild(line);
+        };
+        
+        // 버튼 이벤트
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            outputDiv.innerHTML = '';
+        });
+        
+        // main.js 모듈 가져오기
+        import './main.js';
+        
+        console.log('----- 추가 모듈 사용 예제 -----');
+        
+        // 직접 모듈 사용 예제
+        import { add, PI } from './math.js';
+        console.log(`π 값을 사용한 계산: ${PI} × 2 = ${add(PI, PI)}`);
+        
+        import Formatter, { capitalize } from './utils.js';
+        console.log(`오늘 날짜: ${Formatter.formatDate()}`);
+        console.log(`변환된 텍스트: ${capitalize('javascript')}`);
+    </script>
+</body>
+</html> 

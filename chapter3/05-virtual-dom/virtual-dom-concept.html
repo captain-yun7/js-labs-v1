@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가상 DOM 개념</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        .diagram {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            background-color: white;
+        }
+        .diagram img {
+            max-width: 100%;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>가상 DOM(Virtual DOM) 개념</h1>
+    
+    <div class="section">
+        <h2>가상 DOM이란?</h2>
+        <p>
+            <strong>가상 DOM(Virtual DOM)</strong>은 실제 DOM의 가벼운 JavaScript 객체 표현입니다.
+            실제 브라우저 DOM을 직접 조작하지 않고, 메모리 상에서 DOM 조작을 시뮬레이션한 후
+            최종 결과만 실제 DOM에 적용하는 방식으로 동작합니다.
+        </p>
+        
+        <div class="diagram">
+            <pre>
+   메모리                          브라우저
++-------------+               +-------------+
+|  가상 DOM    |   변경 사항만   |   실제 DOM   |
+|   (객체)     | ------------> |  (브라우저)  |
+|             |    반영        |             |
++-------------+               +-------------+
+</pre>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>왜 가상 DOM이 필요한가?</h2>
+        
+        <h3>문제: DOM 조작의 비용</h3>
+        <p>
+            DOM 조작은 비용이 많이 드는 작업입니다. 요소를 추가, 제거 또는 업데이트할 때마다 
+            브라우저는 다음과 같은 비용이 큰 작업을 수행합니다:
+        </p>
+        <ul>
+            <li><strong>리플로우(Reflow)</strong>: 레이아웃 계산을 다시 수행</li>
+            <li><strong>리페인트(Repaint)</strong>: 화면을 다시 그림</li>
+        </ul>
+        
+        <h3>해결책: 가상 DOM</h3>
+        <p>
+            가상 DOM은 다음과 같은 문제를 해결합니다:
+        </p>
+        <ul>
+            <li>변경 사항을 일괄 처리(Batching)하여 여러 업데이트를 한 번에 처리</li>
+            <li>필요한 최소한의 DOM 조작만 수행</li>
+            <li>DOM 업데이트 최적화를 자동화</li>
+        </ul>
+        
+        <div class="note">
+            <p>
+                <strong>핵심 개념:</strong> 가상 DOM은 "DOM 업데이트를 최소화하기 위한 전략"입니다. 
+                항상 더 빠른 것은 아니지만, 복잡한 UI 업데이트에서 최적화를 자동화합니다.
+            </p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>가상 DOM의 작동 방식</h2>
+        
+        <ol>
+            <li>
+                <strong>초기 렌더링:</strong> 
+                <p>컴포넌트 렌더링 함수가 호출되어 가상 DOM 트리가 생성됩니다.</p>
+                <p>이 가상 DOM 트리를 기반으로 실제 DOM이 생성됩니다.</p>
+            </li>
+            <li>
+                <strong>업데이트 과정:</strong>
+                <ol>
+                    <li>상태(state)가 변경됩니다.</li>
+                    <li>새로운 가상 DOM 트리가 생성됩니다.</li>
+                    <li>새 가상 DOM과 이전 가상 DOM을 비교합니다. (Diffing)</li>
+                    <li>변경된 부분만 식별합니다.</li>
+                    <li>실제 DOM에 변경 사항만 적용합니다. (Patching)</li>
+                </ol>
+            </li>
+        </ol>
+        
+        <div class="diagram">
+            <pre>
+  [상태 변경] -> [새 가상 DOM 생성] -> [이전 가상 DOM과 비교] -> [변경 사항 계산] -> [실제 DOM 업데이트]
+</pre>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>가상 DOM의 간단한 개념적 구현</h2>
+        
+        <pre>
+// 가상 DOM 노드 표현
+function createVNode(type, props, children) {
+  return { type, props, children };
+}
+
+// 실제 DOM 노드 생성
+function createDOMNode(vNode) {
+  if (typeof vNode === 'string') {
+    return document.createTextNode(vNode);
+  }
+  
+  const element = document.createElement(vNode.type);
+  
+  // props 설정
+  for (const prop in vNode.props) {
+    element.setAttribute(prop, vNode.props[prop]);
+  }
+  
+  // 자식 노드 생성 및 추가
+  vNode.children.forEach(child => {
+    element.appendChild(createDOMNode(child));
+  });
+  
+  return element;
+}
+
+// 두 가상 DOM 노드 비교
+function diff(oldVNode, newVNode) {
+  // 여기서는 차이점을 계산하고
+  // 변경사항 목록을 반환합니다
+  // ...
+}
+
+// 변경사항을 실제 DOM에 적용
+function patch(domNode, patches) {
+  // 계산된 변경사항을 DOM에 적용
+  // ...
+}
+</pre>
+    </div>
+    
+    <div class="section">
+        <h2>가상 DOM 사용 예시 (React 스타일)</h2>
+        
+        <pre>
+// React 컴포넌트 예시
+function Counter() {
+  const [count, setCount] = React.useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;현재 카운트: {count}&lt;/p&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        증가
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// 이 JSX는 내부적으로 다음과 같은 가상 DOM 트리로 변환됩니다
+/*
+{
+  type: 'div',
+  props: {},
+  children: [
+    {
+      type: 'p',
+      props: {},
+      children: ['현재 카운트: ', 0]
+    },
+    {
+      type: 'button',
+      props: { onClick: function() { ... } },
+      children: ['증가']
+    }
+  ]
+}
+*/
+</pre>
+        
+        <div class="note">
+            <p>
+                <strong>참고:</strong> 위 예시에서 <code>count</code> 상태가 변경되면, 
+                React는 새로운 가상 DOM 트리를 생성하고 이전 트리와 비교한 후, 
+                실제 DOM에서 <code>&lt;p&gt;</code> 태그의 내용만 업데이트합니다.
+            </p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>요약: 가상 DOM의 이점</h2>
+        
+        <ul>
+            <li><strong>성능 최적화</strong>: 불필요한 DOM 조작을 최소화합니다.</li>
+            <li><strong>선언적 프로그래밍</strong>: "어떻게" 업데이트할지 대신 "무엇을" 표시할지 정의합니다.</li>
+            <li><strong>테스트 용이성</strong>: DOM에 의존하지 않는 테스트가 가능합니다.</li>
+            <li><strong>서버 사이드 렌더링</strong>: 브라우저 DOM이 없는 환경에서도 렌더링이 가능합니다.</li>
+            <li><strong>크로스 플랫폼</strong>: React Native와 같은 기술로 모바일 앱 개발에도 동일한 패러다임을 적용할 수 있습니다.</li>
+        </ul>
+    </div>
+</body>
+</html> 

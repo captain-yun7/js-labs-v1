@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 기본 선택자</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .important {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        #unique-element {
+            border: 2px dashed #3498db;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .output {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">DOM 기본 선택자</h1>
+    
+    <div class="container">
+        <p>DOM 요소는 다양한 방법으로 선택할 수 있습니다:</p>
+        <ul>
+            <li><span class="highlight">getElementById</span> - ID로 요소 선택</li>
+            <li><span class="highlight">getElementsByClassName</span> - 클래스명으로 요소 선택</li>
+            <li><span class="highlight">getElementsByTagName</span> - 태그명으로 요소 선택</li>
+        </ul>
+        
+        <p class="important">각 메서드는 반환 형태가 다릅니다!</p>
+    </div>
+    
+    <div id="unique-element">
+        <p>이 요소는 고유한 ID를 가지고 있습니다: <strong>unique-element</strong></p>
+    </div>
+    
+    <div class="container">
+        <p>아래는 <span class="highlight">버튼 요소들</span>입니다:</p>
+        <button class="btn-action">버튼 1</button>
+        <button class="btn-action">버튼 2</button>
+        <button class="btn-action">버튼 3</button>
+    </div>
+    
+    <div class="container">
+        <h3>결과 출력:</h3>
+        <div id="output" class="output"></div>
+    </div>
+    
+    <script src="selectors-basic.js"></script>
+</body>
+</html> 

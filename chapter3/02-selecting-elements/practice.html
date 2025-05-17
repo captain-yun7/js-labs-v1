@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 선택자 실습</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #ffffcc;
+        }
+        .important {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .todo-item {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #7f8c8d;
+            background-color: #f0f0f0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .output {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            min-height: 100px;
+        }
+        .task {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="main-title">DOM 선택자 실습</h1>
+    
+    <section class="container" id="instructions">
+        <h2>실습 지침</h2>
+        <p>아래 실습 과제를 <code>practice.js</code> 파일에 작성하고 결과를 확인하세요.</p>
+        <p class="important">콘솔을 열어 결과를 확인할 수 있습니다. (F12 또는 개발자 도구)</p>
+    </section>
+    
+    <section class="container" id="task-1">
+        <h2>과제 1: 기본 선택자 사용하기</h2>
+        <div class="task">
+            <p>다음 요소들을 선택하고 console.log로 출력하세요:</p>
+            <ol>
+                <li>ID가 "main-title"인 요소</li>
+                <li>"highlight" 클래스를 가진 모든 요소</li>
+                <li>모든 li 태그 요소</li>
+                <li>첫 번째로 나오는 .important 클래스를 가진 요소</li>
+            </ol>
+        </div>
+        
+        <p>아래 요소들을 사용하세요:</p>
+        <ul>
+            <li class="highlight">첫 번째 항목</li>
+            <li>두 번째 항목</li>
+            <li class="highlight important">세 번째 항목 (하이라이트 + 중요)</li>
+            <li>네 번째 항목</li>
+            <li class="important">다섯 번째 항목 (중요)</li>
+        </ul>
+    </section>
+    
+    <section class="container" id="task-2">
+        <h2>과제 2: 복합 선택자 사용하기</h2>
+        <div class="task">
+            <p>다음 선택자들을 작성하고 결과를 console.log로 출력하세요:</p>
+            <ol>
+                <li>ID가 "task-2"인 요소 내부의 모든 li 요소</li>
+                <li>클래스가 "nested"인 요소 내부의 span 요소</li>
+                <li>data-status 속성이 "active"인 모든 요소</li>
+                <li>ID가 "todo-list"인 요소 내부의 .completed 클래스를 가진 요소들</li>
+            </ol>
+        </div>
+        
+        <div class="nested">
+            <p>중첩된 요소 내부의 <span>span 태그</span>입니다.</p>
+            <div>
+                <p>더 깊게 중첩된 요소 내부의 <span class="highlight">하이라이트된 span 태그</span>입니다.</p>
+            </div>
+        </div>
+        
+        <ul data-list-type="example">
+            <li data-status="active">활성 항목 1</li>
+            <li data-status="inactive">비활성 항목</li>
+            <li data-status="active">활성 항목 2</li>
+        </ul>
+        
+        <div id="todo-list">
+            <div class="todo-item completed">우유 사기</div>
+            <div class="todo-item">빵 사기</div>
+            <div class="todo-item completed">숙제하기</div>
+            <div class="todo-item">자바스크립트 공부하기</div>
+        </div>
+    </section>
+    
+    <section class="container" id="task-3">
+        <h2>과제 3: 선택자 메서드 비교</h2>
+        <div class="task">
+            <p>버튼을 클릭하면 다양한 선택자 메서드를 사용해 같은 요소를 선택하고 결과를 비교해보세요.</p>
+            <button id="btn-test">선택자 테스트 실행</button>
+        </div>
+        
+        <div class="box-container">
+            <div class="box" id="box1">Box 1</div>
+            <div class="box" id="box2">Box 2</div>
+            <div class="box" id="box3">Box 3</div>
+        </div>
+        
+        <h3>결과:</h3>
+        <div id="output" class="output"></div>
+    </section>
+    
+    <script src="practice.js"></script>
+</body>
+</html> 

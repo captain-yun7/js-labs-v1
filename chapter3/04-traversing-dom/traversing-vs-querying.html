@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 트래버싱 vs 쿼리 선택자</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .container {
+            border: 2px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .demo-area {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .box {
+            width: 120px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .box.small {
+            width: 80px;
+            height: 60px;
+        }
+        .box.red { background-color: #e57373; }
+        .box.blue { background-color: #64b5f6; }
+        .box.green { background-color: #81c784; }
+        .box.purple { background-color: #ba68c8; }
+        .box.orange { background-color: #ffb74d; }
+        
+        .list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .list-item {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #e1f5fe;
+            border: 1px solid #b3e5fc;
+        }
+        .list-item.active {
+            background-color: #4fc3f7;
+            color: white;
+        }
+        .nested {
+            margin-left: 20px;
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+        .highlight {
+            outline: 3px solid #ff5722;
+            animation: highlight 2s infinite;
+        }
+        @keyframes highlight {
+            0% { outline-color: #ff5722; }
+            50% { outline-color: transparent; }
+            100% { outline-color: #ff5722; }
+        }
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-left: 4px solid #2196F3;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .performance-result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .wins {
+            color: #4CAF50;
+        }
+        .code-example {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-left: 3px solid #2196F3;
+            margin: 10px 0;
+            font-family: Consolas, monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM 트래버싱 vs 쿼리 선택자</h1>
+    <p>이 예제에서는 DOM 트래버싱 메서드와 쿼리 선택자를 비교하고 각각의 장단점을 살펴봅니다.</p>
+
+    <div class="container">
+        <h2>예제 구조</h2>
+        <div class="demo-area" id="demo1">
+            <h3>상자 예제</h3>
+            <div class="boxes">
+                <div id="box1" class="box red">1</div>
+                <div id="box2" class="box blue">2</div>
+                <div id="box3" class="box green">
+                    3
+                    <div id="nested-box" class="box small purple">3-1</div>
+                </div>
+                <div id="box4" class="box orange">4</div>
+            </div>
+            
+            <h3>리스트 예제</h3>
+            <ul id="main-list" class="list">
+                <li id="item1" class="list-item">항목 1</li>
+                <li id="item2" class="list-item active">항목 2</li>
+                <li id="item3" class="list-item">항목 3
+                    <ul class="list nested">
+                        <li id="subitem1" class="list-item">하위 항목 1</li>
+                        <li id="subitem2" class="list-item">하위 항목 2</li>
+                    </ul>
+                </li>
+                <li id="item4" class="list-item">항목 4</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>1. 요소 선택 방법 비교</h2>
+        
+        <h3>DOM 트래버싱 메서드</h3>
+        <div class="controls">
+            <button onclick="selectWithTraversing('parent')">부모 요소 선택</button>
+            <button onclick="selectWithTraversing('children')">자식 요소 선택</button>
+            <button onclick="selectWithTraversing('siblings')">형제 요소 선택</button>
+            <button onclick="selectWithTraversing('nested')">중첩된 관계 선택</button>
+        </div>
+        
+        <h3>쿼리 선택자</h3>
+        <div class="controls">
+            <button onclick="selectWithQuery('id')">ID로 선택</button>
+            <button onclick="selectWithQuery('class')">클래스로 선택</button>
+            <button onclick="selectWithQuery('complex')">복합 선택자 선택</button>
+            <button onclick="selectWithQuery('pseudo')">의사 클래스 선택</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>2. 성능 비교</h2>
+        <p>아래 버튼을 클릭하면 DOM 트래버싱과 쿼리 선택자의 성능을 비교해볼 수 있습니다.</p>
+        
+        <div class="controls">
+            <button onclick="comparePerformance('simple')">단순 선택 성능 비교</button>
+            <button onclick="comparePerformance('complex')">복잡한 선택 성능 비교</button>
+            <button onclick="comparePerformance('realworld')">실제 사용 사례 성능 비교</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>3. 사용 사례 비교</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>사용 사례</th>
+                    <th>DOM 트래버싱</th>
+                    <th>쿼리 선택자</th>
+                    <th>권장 방법</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID로 요소 선택</td>
+                    <td>N/A</td>
+                    <td><code>document.getElementById()</code><br><code>document.querySelector('#id')</code></td>
+                    <td><code>getElementById()</code></td>
+                </tr>
+                <tr>
+                    <td>부모 요소 선택</td>
+                    <td><code>element.parentElement</code><br><code>element.parentNode</code></td>
+                    <td>직접 선택 불가능 (부모 선택자 없음)</td>
+                    <td><code>parentElement</code></td>
+                </tr>
+                <tr>
+                    <td>자식 요소 선택</td>
+                    <td><code>element.children</code><br><code>element.childNodes</code></td>
+                    <td><code>element.querySelectorAll(':scope > *')</code></td>
+                    <td><code>children</code></td>
+                </tr>
+                <tr>
+                    <td>모든 자식 요소 반복</td>
+                    <td><code>for (const child of element.children) {...}</code></td>
+                    <td><code>element.querySelectorAll('*').forEach(...)</code></td>
+                    <td><code>children</code></td>
+                </tr>
+                <tr>
+                    <td>형제 요소 선택</td>
+                    <td><code>element.nextElementSibling</code><br><code>element.previousElementSibling</code></td>
+                    <td>전체 형제: <code>element.parentElement.querySelectorAll(':scope > *')</code></td>
+                    <td><code>nextElementSibling</code><br><code>previousElementSibling</code></td>
+                </tr>
+                <tr>
+                    <td>복잡한 선택자 적용</td>
+                    <td>여러 트래버싱 메서드 조합 필요</td>
+                    <td><code>querySelectorAll('.class1 .class2:nth-child(2)')</code></td>
+                    <td><code>querySelectorAll()</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>결과</h2>
+    <div id="result"></div>
+
+    <script>
+        // 결과 출력 함수
+        function showResult(message) {
+            document.getElementById('result').innerHTML = message;
+        }
+
+        // 강조 표시 함수들
+        function resetHighlights() {
+            const elements = document.querySelectorAll('.highlight');
+            elements.forEach(el => el.classList.remove('highlight'));
+        }
+
+        function highlightElement(element) {
+            resetHighlights();
+            if (element) {
+                element.classList.add('highlight');
+            }
+        }
+
+        function highlightElements(elements) {
+            resetHighlights();
+            if (elements) {
+                elements.forEach(el => {
+                    if (el) el.classList.add('highlight');
+                });
+            }
+        }
+
+        // 1. DOM 트래버싱 메서드 예제
+        function selectWithTraversing(type) {
+            resetHighlights();
+            let result = '';
+            
+            switch(type) {
+                case 'parent':
+                    // 부모 요소 선택 예제
+                    const nestedBox = document.getElementById('nested-box');
+                    const parentBox = nestedBox.parentElement;
+                    
+                    highlightElement(parentBox);
+                    
+                    result = `
+                        <h3>부모 요소 선택 (DOM 트래버싱)</h3>
+                        <p><code>const parentBox = nestedBox.parentElement;</code></p>
+                        <p>결과: 중첩된 박스 (보라색 3-1)의 부모 요소는 녹색 박스 (3)입니다.</p>
+                        <p><strong>장점:</strong> 직관적이고 간단한 코드, 부모 요소를 직접 선택하는 CSS 선택자는 없음</p>
+                    `;
+                    break;
+                
+                case 'children':
+                    // 자식 요소 선택 예제
+                    const greenBox = document.getElementById('box3');
+                    const children = greenBox.children;
+                    
+                    highlightElements(Array.from(children));
+                    
+                    result = `
+                        <h3>자식 요소 선택 (DOM 트래버싱)</h3>
+                        <p><code>const children = greenBox.children;</code></p>
+                        <p>결과: 녹색 박스 (3)의 자식 요소는 ${children.length}개입니다: 
+                           ${Array.from(children).map(c => c.textContent.trim()).join(', ')}</p>
+                        <p><strong>장점:</strong> HTMLCollection 반환 (라이브 컬렉션), 자식 요소만 선택</p>
+                    `;
+                    break;
+                
+                case 'siblings':
+                    // 형제 요소 선택 예제
+                    const blueBox = document.getElementById('box2');
+                    const nextSibling = blueBox.nextElementSibling;
+                    const prevSibling = blueBox.previousElementSibling;
+                    
+                    highlightElements([nextSibling, prevSibling].filter(Boolean));
+                    
+                    result = `
+                        <h3>형제 요소 선택 (DOM 트래버싱)</h3>
+                        <p><code>const nextSibling = blueBox.nextElementSibling;</code></p>
+                        <p><code>const prevSibling = blueBox.previousElementSibling;</code></p>
+                        <p>결과: 파란색 박스 (2)의 다음 형제 요소는 ${nextSibling ? nextSibling.textContent.trim() : '없음'} 박스이고,
+                           이전 형제 요소는 ${prevSibling ? prevSibling.textContent.trim() : '없음'} 박스입니다.</p>
+                        <p><strong>장점:</strong> 직관적인 탐색, 현재 요소를 기준으로 바로 이전/다음 요소만 선택</p>
+                    `;
+                    break;
+                
+                case 'nested':
+                    // 중첩된 관계 선택 예제
+                    const item3 = document.getElementById('item3');
+                    const nestedList = item3.querySelector('ul');
+                    const subItems = nestedList.children;
+                    
+                    highlightElements(Array.from(subItems));
+                    
+                    result = `
+                        <h3>중첩된 관계 선택 (DOM 트래버싱 + 쿼리)</h3>
+                        <p><code>const nestedList = item3.querySelector('ul');</code></p>
+                        <p><code>const subItems = nestedList.children;</code></p>
+                        <p>결과: '항목 3' 내부의 하위 리스트에는 ${subItems.length}개의 항목이 있습니다.</p>
+                        <p><strong>특징:</strong> DOM 트래버싱과 쿼리 선택자를 함께 사용한 예제입니다. 
+                           특정 요소를 찾은 후 그 자식들을 탐색할 때 유용합니다.</p>
+                    `;
+                    break;
+            }
+            
+            showResult(result);
+        }
+
+        // 2. 쿼리 선택자 예제
+        function selectWithQuery(type) {
+            resetHighlights();
+            let result = '';
+            
+            switch(type) {
+                case 'id':
+                    // ID로 요소 선택 예제
+                    const box4 = document.getElementById('box4');
+                    const box4Alt = document.querySelector('#box4');
+                    
+                    highlightElement(box4);
+                    
+                    result = `
+                        <h3>ID로 요소 선택 (쿼리 선택자)</h3>
+                        <p><code>const box4 = document.getElementById('box4');</code></p>
+                        <p><code>const box4Alt = document.querySelector('#box4');</code></p>
+                        <p>결과: ID가 'box4'인 요소를 선택했습니다: ${box4.textContent.trim()} 박스</p>
+                        <p><strong>참고:</strong> <code>getElementById</code>가 <code>querySelector</code>보다 미세하게 더 빠릅니다.</p>
+                    `;
+                    break;
+                
+                case 'class':
+                    // 클래스로 요소 선택 예제
+                    const blueBoxes = document.querySelectorAll('.blue');
+                    const activeItems = document.querySelectorAll('.active');
+                    
+                    highlightElements(Array.from(activeItems));
+                    
+                    result = `
+                        <h3>클래스로 요소 선택 (쿼리 선택자)</h3>
+                        <p><code>const blueBoxes = document.querySelectorAll('.blue');</code></p>
+                        <p><code>const activeItems = document.querySelectorAll('.active');</code></p>
+                        <p>결과: 'blue' 클래스를 가진 박스는 ${blueBoxes.length}개, 'active' 클래스를 가진 항목은 ${activeItems.length}개입니다.</p>
+                        <p><strong>장점:</strong> 클래스 기반 선택이 간편하고, 여러 요소를 한 번에 선택할 수 있습니다.</p>
+                    `;
+                    break;
+                
+                case 'complex':
+                    // 복합 선택자 예제
+                    const nestedListItems = document.querySelectorAll('#item3 .list-item');
+                    
+                    highlightElements(Array.from(nestedListItems));
+                    
+                    result = `
+                        <h3>복합 선택자 선택 (쿼리 선택자)</h3>
+                        <p><code>const nestedListItems = document.querySelectorAll('#item3 .list-item');</code></p>
+                        <p>결과: ID가 'item3'인 요소 내부의 'list-item' 클래스를 가진 요소는 ${nestedListItems.length}개입니다.</p>
+                        <p><strong>장점:</strong> 복잡한 DOM 구조에서 특정 조건을 만족하는 요소를 쉽게 선택할 수 있습니다.</p>
+                    `;
+                    break;
+                
+                case 'pseudo':
+                    // 의사 클래스 선택자 예제
+                    const firstListItem = document.querySelector('#main-list > li:first-child');
+                    const lastListItem = document.querySelector('#main-list > li:last-child');
+                    
+                    highlightElements([firstListItem, lastListItem]);
+                    
+                    result = `
+                        <h3>의사 클래스 선택 (쿼리 선택자)</h3>
+                        <p><code>const firstListItem = document.querySelector('#main-list > li:first-child');</code></p>
+                        <p><code>const lastListItem = document.querySelector('#main-list > li:last-child');</code></p>
+                        <p>결과: 메인 리스트의 첫 번째 항목은 '${firstListItem.textContent.split('\n')[0].trim()}', 
+                           마지막 항목은 '${lastListItem.textContent.trim()}'입니다.</p>
+                        <p><strong>장점:</strong> 위치 기반 선택이 가능하고 동적인 선택 패턴을 적용할 수 있습니다.</p>
+                    `;
+                    break;
+            }
+            
+            showResult(result);
+        }
+
+        // 3. 성능 비교 함수
+        function comparePerformance(type) {
+            resetHighlights();
+            let result = '';
+            
+            switch(type) {
+                case 'simple':
+                    // 단순 선택 성능 비교
+                    const iterations = 10000;
+                    
+                    // getElementById vs querySelector('#id')
+                    const idStartTime = performance.now();
+                    for (let i = 0; i < iterations; i++) {
+                        const element = document.getElementById('box1');
+                    }
+                    const idEndTime = performance.now();
+                    const idTime = idEndTime - idStartTime;
+                    
+                    const querySelectorStartTime = performance.now();
+                    for (let i = 0; i < iterations; i++) {
+                        const element = document.querySelector('#box1');
+                    }
+                    const querySelectorEndTime = performance.now();
+                    const querySelectorTime = querySelectorEndTime - querySelectorStartTime;
+                    
+                    result = `
+                        <h3>단순 선택 성능 비교 (${iterations.toLocaleString()}회 반복)</h3>
+                        <p><code>getElementById</code> 실행 시간: ${idTime.toFixed(2)} ms</p>
+                        <p><code>querySelector('#id')</code> 실행 시간: ${querySelectorTime.toFixed(2)} ms</p>
+                        <p class="performance-result ${idTime < querySelectorTime ? 'wins' : ''}">
+                            ${idTime < querySelectorTime ? 'getElementById가 더 빠릅니다! (' + (querySelectorTime/idTime).toFixed(2) + '배)' : 'querySelector가 더 빠릅니다!'}
+                        </p>
+                        <p><strong>결론:</strong> ID로 단일 요소를 선택할 때는 <code>getElementById</code>가 일반적으로 더 빠릅니다.</p>
+                    `;
+                    break;
+                
+                case 'complex':
+                    // 복잡한 선택 성능 비교
+                    const item = document.querySelector('#item3');
+                    
+                    // 트래버싱 방식
+                    const traversingStartTime = performance.now();
+                    for (let i = 0; i < 5000; i++) {
+                        const nestedUl = Array.from(item.children).find(child => child.tagName === 'UL');
+                        if (nestedUl) {
+                            const nestedItems = nestedUl.children;
+                        }
+                    }
+                    const traversingEndTime = performance.now();
+                    const traversingTime = traversingEndTime - traversingStartTime;
+                    
+                    // 쿼리 선택자 방식
+                    const queryStartTime = performance.now();
+                    for (let i = 0; i < 5000; i++) {
+                        const nestedItems = item.querySelectorAll('ul > li');
+                    }
+                    const queryEndTime = performance.now();
+                    const queryTime = queryEndTime - queryStartTime;
+                    
+                    result = `
+                        <h3>복잡한 선택 성능 비교 (5,000회 반복)</h3>
+                        <div class="code-example">// DOM 트래버싱 방식
+const nestedUl = Array.from(item.children).find(child => child.tagName === 'UL');
+if (nestedUl) {
+    const nestedItems = nestedUl.children;
+}</div>
+                        <div class="code-example">// 쿼리 선택자 방식
+const nestedItems = item.querySelectorAll('ul > li');</div>
+                        <p>DOM 트래버싱 실행 시간: ${traversingTime.toFixed(2)} ms</p>
+                        <p>쿼리 선택자 실행 시간: ${queryTime.toFixed(2)} ms</p>
+                        <p class="performance-result ${traversingTime < queryTime ? 'wins' : 'wins'}">
+                            ${traversingTime < queryTime ? 'DOM 트래버싱이 더 빠릅니다! (' + (queryTime/traversingTime).toFixed(2) + '배)' : '쿼리 선택자가 더 빠릅니다! (' + (traversingTime/queryTime).toFixed(2) + '배)'}
+                        </p>
+                        <p><strong>결론:</strong> 복잡한 선택의 경우 상황에 따라 성능 차이가 있을 수 있습니다. 
+                        구체적인 사용 사례에 맞게 선택해야 합니다.</p>
+                    `;
+                    break;
+                
+                case 'realworld':
+                    // 실제 사용 사례 성능 비교
+                    // 대규모 DOM에서 특정 요소의 조상을 찾아 스타일 변경하기
+                    result = `
+                        <h3>실제 사용 사례 성능 비교</h3>
+                        <p><strong>사례:</strong> 이벤트 위임 패턴에서 클릭된 요소의 가장 가까운 리스트 항목 찾기</p>
+                        
+                        <div class="code-example">// DOM 트래버싱 방식
+element.closest('.list-item');</div>
+                        <div class="code-example">// 대안 방식 (루프 사용)
+function findAncestor(el, cls) {
+    while (el && !el.classList.contains(cls)) {
+        el = el.parentElement;
+    }
+    return el;
+}
+findAncestor(element, 'list-item');</div>
+                        
+                        <p><strong>결과:</strong> <code>closest()</code> 메서드는 DOM 트래버싱 기반이지만 내부적으로 최적화되어 있어 직접 구현한 루프보다 빠를 수 있습니다.</p>
+                        
+                        <h4>권장 사항</h4>
+                        <ul>
+                            <li>ID 기반 단일 요소 선택: <code>getElementById</code></li>
+                            <li>직접적인 부모/자식/형제 관계 탐색: DOM 트래버싱 메서드</li>
+                            <li>복잡한 선택자로 여러 요소 선택: <code>querySelectorAll</code></li>
+                            <li>조상 요소 검색: <code>closest</code></li>
+                            <li>일반 원칙: 가장 직관적이고 명확한 코드를 선택</li>
+                        </ul>
+                    `;
+                    break;
+            }
+            
+            showResult(result);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 소개</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .highlight {
+            background-color: yellow;
+            padding: 2px;
+        }
+        #demo-element {
+            border: 2px solid #3498db;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #e8f4fc;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM(Document Object Model) 소개</h1>
+    
+    <section>
+        <h2>DOM이란?</h2>
+        <p>DOM은 <strong>Document Object Model</strong>의 약자로, HTML 문서를 객체로 표현한 것입니다.</p>
+        <p>DOM은 웹 페이지의 프로그래밍 인터페이스로, JavaScript를 통해 문서의 내용, 구조, 스타일을 변경할 수 있게 해줍니다.</p>
+    </section>
+    
+    <section>
+        <h2>DOM 트리</h2>
+        <p>브라우저는 HTML 문서를 로드할 때, 문서의 내용을 트리 구조로 변환합니다.</p>
+        <p>이를 <strong>DOM 트리</strong>라고 하며, 각 HTML 요소는 트리의 노드가 됩니다.</p>
+        <p>예를 들어, 다음 HTML 구조:</p>
+        <pre><code>&lt;div&gt;
+  &lt;h2&gt;제목&lt;/h2&gt;
+  &lt;p&gt;단락 텍스트&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        <p>는 다음과 같은 DOM 트리로 변환됩니다:</p>
+        <pre><code>document
+  └── div
+      ├── h2
+      │   └── "제목" (텍스트 노드)
+      └── p
+          └── "단락 텍스트" (텍스트 노드)</code></pre>
+    </section>
+    
+    <section>
+        <h2>JavaScript로 DOM 조작하기</h2>
+        <p>JavaScript를 사용하면 DOM에 접근하여 요소를 추가, 수정, 삭제할 수 있습니다.</p>
+        <div id="demo-element">
+            <p>이것은 <span class="highlight">DOM 조작</span>을 위한 데모 요소입니다.</p>
+            <button id="change-text-btn">텍스트 변경</button>
+            <button id="add-element-btn">요소 추가</button>
+        </div>
+    </section>
+    
+    <section>
+        <h2>DOM의 주요 객체</h2>
+        <ul>
+            <li><code>document</code> - 웹 페이지 그 자체를 나타내는 객체</li>
+            <li><code>element</code> - 모든 HTML 요소를 나타내는 객체</li>
+            <li><code>nodeList</code> - 노드의 배열 형태</li>
+            <li><code>attribute</code> - HTML 요소의 속성을 나타내는 객체</li>
+        </ul>
+    </section>
+    
+    <script>
+        // DOM 조작 예제
+        document.getElementById('change-text-btn').addEventListener('click', function() {
+            const demoElement = document.querySelector('#demo-element p');
+            demoElement.innerHTML = '텍스트가 <span class="highlight">변경</span>되었습니다!';
+        });
+        
+        document.getElementById('add-element-btn').addEventListener('click', function() {
+            const demoElement = document.getElementById('demo-element');
+            const newElement = document.createElement('p');
+            newElement.textContent = '새로운 단락이 추가되었습니다!';
+            newElement.style.color = 'green';
+            demoElement.appendChild(newElement);
+        });
+    </script>
+</body>
+</html> 

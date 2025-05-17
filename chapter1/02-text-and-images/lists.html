@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 목록</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        .example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+        /* 목록 스타일 예시 */
+        .custom-disc {
+            list-style-type: disc;
+        }
+        .custom-circle {
+            list-style-type: circle;
+        }
+        .custom-square {
+            list-style-type: square;
+        }
+        .custom-decimal {
+            list-style-type: decimal;
+        }
+        .custom-lower-alpha {
+            list-style-type: lower-alpha;
+        }
+        .custom-upper-roman {
+            list-style-type: upper-roman;
+        }
+        .custom-image {
+            list-style-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><circle cx="5" cy="5" r="4" fill="%233498db"/></svg>');
+            padding-left: 25px;
+        }
+        .horizontal-list {
+            padding: 0;
+        }
+        .horizontal-list li {
+            display: inline-block;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML 목록</h1>
+    
+    <p>HTML에서는 다양한 유형의 목록을 생성할 수 있습니다. 목록은 정보를 구조화하고 가독성을 높이는 데 유용합니다.</p>
+    
+    <h2>1. 순서 없는 목록 (Unordered List)</h2>
+    <div class="example">
+        <p>순서 없는 목록은 항목의 순서가 중요하지 않을 때 사용합니다:</p>
+        <ul>
+            <li>사과</li>
+            <li>바나나</li>
+            <li>오렌지</li>
+            <li>포도</li>
+        </ul>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;사과&lt;/li&gt;
+    &lt;li&gt;바나나&lt;/li&gt;
+    &lt;li&gt;오렌지&lt;/li&gt;
+    &lt;li&gt;포도&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    
+    <h2>2. 순서 있는 목록 (Ordered List)</h2>
+    <div class="example">
+        <p>순서 있는 목록은 항목의 순서가 중요할 때 사용합니다:</p>
+        <ol>
+            <li>물 끓이기</li>
+            <li>티백 넣기</li>
+            <li>3분 기다리기</li>
+            <li>티백 꺼내기</li>
+        </ol>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;ol&gt;
+    &lt;li&gt;물 끓이기&lt;/li&gt;
+    &lt;li&gt;티백 넣기&lt;/li&gt;
+    &lt;li&gt;3분 기다리기&lt;/li&gt;
+    &lt;li&gt;티백 꺼내기&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+    <h2>3. 정의 목록 (Definition List)</h2>
+    <div class="example">
+        <p>정의 목록은 용어와 그에 대한 설명을 나열할 때 사용합니다:</p>
+        <dl>
+            <dt>HTML</dt>
+            <dd>웹 페이지의 구조를 정의하는 마크업 언어</dd>
+            
+            <dt>CSS</dt>
+            <dd>웹 페이지의 스타일과 레이아웃을 정의하는 언어</dd>
+            
+            <dt>JavaScript</dt>
+            <dd>웹 페이지에 상호작용과 동적 기능을 추가하는 프로그래밍 언어</dd>
+        </dl>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;dl&gt;
+    &lt;dt&gt;HTML&lt;/dt&gt;
+    &lt;dd&gt;웹 페이지의 구조를 정의하는 마크업 언어&lt;/dd&gt;
+    
+    &lt;dt&gt;CSS&lt;/dt&gt;
+    &lt;dd&gt;웹 페이지의 스타일과 레이아웃을 정의하는 언어&lt;/dd&gt;
+    
+    &lt;dt&gt;JavaScript&lt;/dt&gt;
+    &lt;dd&gt;웹 페이지에 상호작용과 동적 기능을 추가하는 프로그래밍 언어&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+    <h2>4. 중첩 목록 (Nested Lists)</h2>
+    <div class="example">
+        <p>목록은 다른 목록 안에 중첩될 수 있습니다:</p>
+        <ul>
+            <li>과일
+                <ul>
+                    <li>사과</li>
+                    <li>바나나</li>
+                    <li>오렌지</li>
+                </ul>
+            </li>
+            <li>채소
+                <ul>
+                    <li>당근</li>
+                    <li>브로콜리</li>
+                    <li>시금치</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <p>코드 예시:</p>
+    <pre><code>&lt;ul&gt;
+    &lt;li&gt;과일
+        &lt;ul&gt;
+            &lt;li&gt;사과&lt;/li&gt;
+            &lt;li&gt;바나나&lt;/li&gt;
+            &lt;li&gt;오렌지&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;채소
+        &lt;ul&gt;
+            &lt;li&gt;당근&lt;/li&gt;
+            &lt;li&gt;브로콜리&lt;/li&gt;
+            &lt;li&gt;시금치&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+    <h2>5. 목록 스타일 변경하기 (CSS 사용)</h2>
+    <div class="example">
+        <p>CSS를 사용하여 목록의 외관을 변경할 수 있습니다:</p>
+        
+        <h3>순서 없는 목록 마커</h3>
+        <ul class="custom-disc">
+            <li>Disc 마커</li>
+        </ul>
+        <ul class="custom-circle">
+            <li>Circle 마커</li>
+        </ul>
+        <ul class="custom-square">
+            <li>Square 마커</li>
+        </ul>
+        
+        <h3>순서 있는 목록 마커</h3>
+        <ol class="custom-decimal">
+            <li>Decimal 마커</li>
+        </ol>
+        <ol class="custom-lower-alpha">
+            <li>Lower alpha 마커</li>
+        </ol>
+        <ol class="custom-upper-roman">
+            <li>Upper roman 마커</li>
+        </ol>
+        
+        <h3>사용자 정의 마커</h3>
+        <ul class="custom-image">
+            <li>사용자 정의 이미지 마커</li>
+        </ul>
+        
+        <h3>가로 목록</h3>
+        <ul class="horizontal-list">
+            <li>항목 1</li>
+            <li>항목 2</li>
+            <li>항목 3</li>
+            <li>항목 4</li>
+        </ul>
+    </div>
+    
+    <p class="note">참고: 목록은 웹 페이지의 탐색 메뉴, FAQ, 단계별 지침 등 다양한 용도로 사용됩니다.</p>
+</body>
+</html> 

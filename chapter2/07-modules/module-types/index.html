@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES 모듈 타입 예제</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+      border-bottom: 2px solid #ecf0f1;
+      padding-bottom: 10px;
+    }
+    .instructions {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .output {
+      background-color: #f1f1f1;
+      border-left: 4px solid #3498db;
+      padding: 10px;
+      margin-top: 20px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, Monaco, 'Andale Mono', monospace;
+      background-color: #f8f9fa;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>ES 모듈 타입 예제</h1>
+  
+  <div class="instructions">
+    <p>이 페이지는 다양한 타입의 ES 모듈 내보내기와 가져오기 예제를 보여줍니다.</p>
+    <p>모듈 예제 코드:</p>
+    <ul>
+      <li><code>default-export.js</code> - 기본 내보내기 예제</li>
+      <li><code>named-exports.js</code> - 이름 붙은 내보내기 예제</li>
+      <li><code>mixed-exports.js</code> - 기본 내보내기와 이름 붙은 내보내기를 함께 사용하는 예제</li>
+      <li><code>import-examples.js</code> - 다양한 가져오기 방식 예제</li>
+    </ul>
+    <p>아래 버튼을 클릭하여 모듈 실행 결과를 확인하세요.</p>
+    <button id="runButton">모듈 예제 실행</button>
+  </div>
+  
+  <div id="output" class="output">콘솔 출력이 여기에 표시됩니다...</div>
+  
+  <script>
+    // 콘솔 출력을 캡처하기 위한 설정
+    const outputDiv = document.getElementById('output');
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+    
+    // 콘솔 출력을 화면에 표시하도록 재정의
+    console.log = function(...args) {
+      originalConsoleLog.apply(console, args);
+      outputDiv.textContent += args.join(' ') + '\n';
+    };
+    
+    console.error = function(...args) {
+      originalConsoleError.apply(console, args);
+      outputDiv.textContent += '🔴 오류: ' + args.join(' ') + '\n';
+    };
+    
+    // 실행 버튼 이벤트 리스너
+    document.getElementById('runButton').addEventListener('click', function() {
+      outputDiv.textContent = ''; // 출력 내용 초기화
+      
+      // 모듈 동적 가져오기 (import() 함수 사용)
+      import('./import-examples.js')
+        .then(() => {
+          console.log('\n✅ 모듈 예제가 성공적으로 로드되었습니다.');
+        })
+        .catch(error => {
+          console.error('모듈 로드 중 오류 발생:', error);
+        });
+    });
+  </script>
+</body>
+</html> 

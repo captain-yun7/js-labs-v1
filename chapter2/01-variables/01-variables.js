@@ -2,30 +2,28 @@
 
 // 1. var 변수 선언
 console.log("=== var 변수 예제 ===");
-var name = "홍길동";
+var name = "윤지순";
 var age = 25;
 console.log("이름:", name);
 console.log("나이:", age);
 
 // var는 재선언 가능
-var name = "김철수";
+var name = "윤지수";
 console.log("바뀐 이름:", name);
 
 // var는 함수 레벨 스코프
-function varTest() {
-  var x = 1;
+function varTest() {  
   if (true) {
-    var x = 2;  // 같은 변수 x를 재할당
-    console.log("if 블록 내부 x:", x);  // 2 출력
+    var x = 2;    
   }
-  console.log("함수 내부 x:", x);  // 2 출력 (if 블록에서 변경된 값)
+  console.log("x:", x); // 2 출력 : if 블록이 종료되었는데도 접근 가능
 }
 varTest();
 
 // 2. let 변수 선언
 console.log("\n=== let 변수 예제 ===");
 let title = "JavaScript 기초";
-let year = 2023;
+let year = 2025;
 console.log("제목:", title);
 console.log("연도:", year);
 
@@ -34,13 +32,11 @@ title = "JavaScript 심화";
 console.log("바뀐 제목:", title);
 
 // let은 블록 레벨 스코프
-function letTest() {
-  let y = 1;
+function letTest() {  
   if (true) {
-    let y = 2;  // 새로운 변수 y를 선언
-    console.log("if 블록 내부 y:", y);  // 2 출력
+    let x = 2;    
   }
-  console.log("함수 내부 y:", y);  // 1 출력 (if 블록의 y는 다른 변수)
+  // console.log("x:", x); // 2 출력 : if 블록 종료 후 접근 불가
 }
 letTest();
 
@@ -56,7 +52,7 @@ console.log("최대 사용자 수:", MAX_USERS);
 
 // const로 선언한 객체의 속성은 변경 가능
 const user = {
-  name: "이영희",
+  name: "최수지",
   age: 30
 };
 console.log("유저 정보:", user);

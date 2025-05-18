@@ -19,7 +19,7 @@ JavaScript에서는 변수를 선언하는 세 가지 방법이 있습니다:
 
 ### var
 ```javascript
-var name = "홍길동";
+var name = "윤지수";
 var age = 25;
 ```
 - 함수 레벨 스코프
@@ -28,7 +28,7 @@ var age = 25;
 
 ### let
 ```javascript
-let name = "홍길동";
+let name = "윤지수";
 let age = 25;
 ```
 - 블록 레벨 스코프
